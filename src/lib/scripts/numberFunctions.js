@@ -1,4 +1,8 @@
+// this code might show an error because we haven't yet installed mathjs, so you can ignore it
 import { round } from 'mathjs';
+
+// these functions handle formatting numbers before displaying it on the app to improve user experience
+
 /**
  * @description Formats a number to a more human friendly format
  * @example const formattedNumber = formatNum(100990) // 100,990
@@ -42,6 +46,7 @@ export function numToSummary(num) {
     if (num < 1000 || !num) return num;
     const units = ['K', 'M', 'B', 'T'];
     const unit = Math.floor((num.toString().split('.')[0].length - 1) / 3);
-    const value = (num / Math.pow(1000, unit)).toFixed(2);
+    const value = (num / Math.pow(1000, unit)).toFixed(1);
     return `${value}${units[unit - 1]}`;
 }
+

@@ -10,27 +10,27 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      name: '/',
+      path: '/',
       component: HomeViewVue
     }, 
     {
-      name: '/settings',
+      path: '/settings',
       component: SettingsView
     },
     {
-      name: '/setup',
+      path: '/setup',
       component: SetupView
     },
     {
-      name: '/stats',
+      path: '/stats',
       component: StatsView
     },
     {
-      name: '/add-expense',
+      path: '/add-expense',
       component: AddExpenseView
     },
     {
-      name: '/add-income',
+      path: '/add-income',
       component: AddIncomeView
     },
 

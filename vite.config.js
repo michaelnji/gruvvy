@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from 'node:url'
-import webfontDownload from 'vite-plugin-webfont-dl';
+// import webfontDownload from 'vite-plugin-webfont-dl';
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
-     webfontDownload(["https://api.fontshare.com/v2/css?f[]=excon@400,900,700,500,300,100,1&f[]=ranade@700,300,2,701,401,101,100,400,1,500,501,301&display=swap"])
+    //  webfontDownload(["https://api.fontshare.com/v2/css?f[]=pally@400,500,700&display=swap"])
   ],
   resolve: {
     alias: {
