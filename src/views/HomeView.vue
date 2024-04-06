@@ -6,6 +6,7 @@ import IncomeComp from '@/components/IncomeComp.vue';
 import navBar from '@/components/NavBar.vue';
 import TransactionsList from '@/components/TransactionsList.vue';
 import { dummy } from '@/lib/data/dummy';
+import { getReadableDate } from '@/lib/scripts/dateManager';
 
 
 </script>
@@ -13,10 +14,17 @@ import { dummy } from '@/lib/data/dummy';
 <template>
   <main class=" pb-20">
     <navBar />
-    <div class="pt-24  px-6 ">
-      <h2 class="font-head m-0 !leading-none font-extrabold  text-3xl">
-        Account Overview
-      </h2>
+    <div class="pt-24  px-4 ">
+      <div class="flex items-center gap-3">
+        <button class="btn  text-2xl btn-primary text-orange-50">M</button>
+        <div>
+          <h2 class="font-head m-0 !leading-none font-medium  text-3xl">
+            Hello Michael
+          </h2>
+          <p class="opacity-70"> {{ getReadableDate(new Date()) }}</p>
+        </div>
+
+      </div>
       <div class="mt-6 w-full">
         <BalanceComp :balance='999900' />
       </div>
@@ -29,11 +37,11 @@ import { dummy } from '@/lib/data/dummy';
         </div>
       </div>
       <div class="w-full mt-4">
-        <BudgetSummaryComp :percentage="3901229 / 65009099 * 100" :total="65009099" :current="3901229" />
+        <BudgetSummaryComp :percentage="100000 / 500500 * 100" :total="500500" :current="100000" />
       </div>
       <div class="w-full h-0.5  my-8 bg-base-300"></div>
       <!-- transactions -->
-      <h2 class="font-head !m-0 text-3xl font-black ">
+      <h2 class="font-head !m-0 text-3xl font-medium ">
         Recent Transactions
       </h2>
       <div class="mt-4">

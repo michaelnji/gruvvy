@@ -59,7 +59,7 @@ function hidePopover() {
         </div>
     </div>
 
-    <div class="fixed  bottom-0 left-0 right-0 h-dvh bg-black z-50 bg-opacity-60 px-3 flex items-end justify-center"
+    <div class="fixed  bottom-0 left-0 right-0 h-dvh bg-black z-50 bg-opacity-60  flex items-end justify-center"
         v-if="popoverIsVisible" @click="hidePopover">
         <div class="rounded-t-3xl max-w-xl px-6 py-12 h-max w-full bg-base-100" :id="transaction.id"
             style="transform: translateY(600px);">
@@ -68,15 +68,15 @@ function hidePopover() {
             </h2>
             <div class="w-full flex items-center gap-3">
                 <span
-                    class="font-semibold text-xl text-primary bg-primary bg-opacity-10 py-2 px-4 rounded-xl capitalize">{{
+                    class="font-semibold text-lg text-primary bg-primary bg-opacity-10 py-2 px-4 rounded-xl capitalize">{{
         transaction.category
     }}</span>
                 <span
-                    class="font-semibold text-xl text-secondary bg-secondary bg-opacity-10 py-2 px-4 rounded-xl capitalize flex gap-2 items-center max-w-max">
-                    <i class="pi pi-calendar text-xl"></i>
+                    class="font-semibold text-lg text-secondary bg-secondary bg-opacity-10 py-2 px-4 rounded-lg capitalize flex gap-2 items-center max-w-max">
+                    <i class="pi pi-calendar text-lg"></i>
                     <span> {{
             getReadableDate(transaction.date)
-        }}</span></span>
+                        }}</span></span>
             </div>
             <div class="mt-8" v-if="transaction.note">
                 <h2 class="font-black text-3xl mb-2">Note</h2>
