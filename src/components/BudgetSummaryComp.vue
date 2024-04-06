@@ -1,6 +1,6 @@
 <script setup>
 import { numToSummary } from '@/lib/scripts/numberFunctions';
-const props = defineProps({
+defineProps({
     percentage: {
         type: Number, required: true
     },
@@ -12,7 +12,7 @@ const props = defineProps({
     }
 
 });
-console.log(props.percentage)
+
 
 </script>
 

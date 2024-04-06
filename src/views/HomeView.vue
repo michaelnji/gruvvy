@@ -5,7 +5,14 @@ import ExpenseComp from '@/components/ExpenseComp.vue';
 import IncomeComp from '@/components/IncomeComp.vue';
 import navBar from '@/components/NavBar.vue';
 import TransactionsList from '@/components/TransactionsList.vue';
-import { dummy } from '@/lib/data/dummy';
+import { useProfile } from '@/stores/profile';
+import { useTransactions } from '@/stores/transactions';
+import { storeToRefs } from 'pinia';
+
+const profileState = useProfile();
+const transactionsState = useTransactions();
+const { profile } = storeToRefs(profileState);
+const { transactions } = storeToRefs(transactionsState);
 
 
 </script>
@@ -15,29 +22,31 @@ import { dummy } from '@/lib/data/dummy';
 
     <navBar />
     <div class="pt-24  px-4 ">
-      <div class="flex items-center gap-3">
-        <button class="btn btn-circle  text-xl btn-primary">M</button>
+      <div v-if="profile.name" class="flex items-center gap-3">
+        <button class="btn btn-circle !uppercase  text-xl btn-primary">{{ profile.name.split('')[0] }}</button>
         <div>
           <h2 class="font-head m-0 !leading-none font-medium  text-2xl">
-            Hello Michael
+            Hello {{ profile.name }}
           </h2>
-          <p class="opacity-50"> ID: M{{ Math.floor(Math.random() * 1984987906) }}K</p>
+          <p class="opacity-50"> {{ profile.id }}</p>
         </div>
 
       </div>
       <div class="mt-6 w-full">
-        <BalanceComp :balance='999900' />
+        <BalanceComp :balance='profile.balance' />
       </div>
       <div class="grid grid-cols-2 gap-2 mt-4 w-full">
         <div>
-          <ExpenseComp :expense='94394995' />
+          <ExpenseComp :expense='profile.expense' />
         </div>
         <div>
-          <IncomeComp :income='900000' />
+          <IncomeComp :income='profile.income' />
         </div>
       </div>
       <div class="w-full mt-4">
-        <BudgetSummaryComp :percentage="100000 / 500500 * 100" :total="500500" :current="100000" />
+        <BudgetSummaryComp
+          :percentage="profile.budget && profile.usage ? profile.budget_usage / profile.budget * 100 : 0"
+          :total="profile.budget" :current="profile.budget_usage" />
       </div>
       <div class="w-full h-0.5  my-8 bg-base-300"></div>
       <!-- transactions -->
@@ -45,7 +54,7 @@ import { dummy } from '@/lib/data/dummy';
         Recent Transactions
       </h2>
       <div class="mt-4">
-        <TransactionsList :transactions='[...dummy.transactions]' />
+        <TransactionsList :transactions='[...transactions]' />
       </div>
     </div>
   </main>
