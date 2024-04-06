@@ -14,6 +14,7 @@ import { ref } from 'vue';
 const props = defineProps({
     transaction: { required: true }
 });
+console.log(`${iconList[props.transaction.category.icon].icon}`)
 let popoverIsVisible = ref(false)
 function showPopover() {
     popoverIsVisible.value = true;
@@ -53,14 +54,14 @@ function hidePopover() {
             </h2>
             <p class=" opacity-70  ">{{ getReadableDate(transaction.date) }}</p>
         </div>
-        <div class="rounded-xl bg-base-100  p-1.5 px-2 flex items-center capitalize text-md gap-2 !text-opacity-70">
-            <i :class='`${iconList[transaction.category].icon} !opacity-70`'></i>
-            {{ transaction.category }}
+        <div class="rounded-xl bg-base-100  p-1.5 px-2 flex !items-center capitalize text-md gap-2 !text-opacity-70">
+            <i :class='`${iconList[transaction.category.icon].icon} !opacity-70 `'></i>
+            {{ transaction.category.name }}
         </div>
     </div>
 
     <div class="fixed  bottom-0 left-0 right-0 h-dvh bg-black z-50 bg-opacity-60  flex items-end justify-center"
-        v-if="popoverIsVisible" @click="hidePopover">
+        v-if="popoverIsVisible" @click.self="hidePopover">
         <div class="rounded-t-3xl max-w-xl px-6 py-12 h-max w-full bg-base-100" :id="transaction.id"
             style="transform: translateY(600px);">
             <p class="text-2xl font-semibold opacity-70">{{ transaction.type }}</p>
@@ -69,7 +70,7 @@ function hidePopover() {
             <div class="w-full flex items-center gap-3">
                 <span
                     class="font-semibold text-lg text-primary bg-primary bg-opacity-10 py-2 px-4 rounded-xl capitalize">{{
-        transaction.category
+        transaction.category.name
     }}</span>
                 <span
                     class="font-semibold text-lg text-secondary bg-secondary bg-opacity-10 py-2 px-4 rounded-lg capitalize flex gap-2 items-center max-w-max">
@@ -78,7 +79,7 @@ function hidePopover() {
             getReadableDate(transaction.date)
                         }}</span></span>
             </div>
-            <div class="mt-8" v-if="transaction.note">
+            <div class="mt-8 text-pretty" v-if="transaction.note">
                 <h2 class="font-black text-3xl mb-2">Note</h2>
                 <div class="p-6 rounded-3xl bg-base-200 text-xl font-medium">
                     <p class="opacity-80">{{ transaction.note }}</p>

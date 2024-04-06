@@ -17,6 +17,8 @@
     "@vue-hero-icons/outline": "^1.7.2",
     "@vue-hero-icons/solid": "^1.7.2",
     "animejs": "^3.2.2",
+    "boxicons": "^2.1.4",
+    "css.gg": "^2.1.1",
     "date-fns": "^3.6.0",
     "mathjs": "^12.4.1",
     "pinia": "^2.1.7",

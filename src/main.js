@@ -1,6 +1,8 @@
 import './assets/main.css'
 import 'primeicons/primeicons.css'
-
+import 'boxicons/css/boxicons.css'
+import 'boxicons/css/animations.css'
+import 'boxicons/css/transformations.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 

@@ -16,12 +16,12 @@ import { dummy } from '@/lib/data/dummy';
     <navBar />
     <div class="pt-24  px-4 ">
       <div class="flex items-center gap-3">
-        <button class="btn  text-2xl btn-primary">M</button>
+        <button class="btn btn-circle  text-xl btn-primary">M</button>
         <div>
-          <h2 class="font-head m-0 !leading-none font-medium  text-3xl">
+          <h2 class="font-head m-0 !leading-none font-medium  text-2xl">
             Hello Michael
           </h2>
-          <p class="opacity-70"> ID: M{{ Math.floor(Math.random() * 1984987906) }}K</p>
+          <p class="opacity-50"> ID: M{{ Math.floor(Math.random() * 1984987906) }}K</p>
         </div>
 
       </div>
