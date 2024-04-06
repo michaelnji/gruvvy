@@ -11,7 +11,7 @@ const props = defineProps({
     <div class="bg-error bg-opacity-10  p-3  rounded-2xl w-full  md:max-w-xl  ">
         <div>
             <h2 class="font-semibold m-0 !leading-none font-head text-2xl text-error  md:text-4xl">
-                <small>XAF</small> {{ numToSummary(props.expense) }}
+                <small class="text-base">XAF</small> {{ numToSummary(props.expense) }}
             </h2>
             <p class=" opacity-70 text-md text-error"> Expense</p>
         </div>

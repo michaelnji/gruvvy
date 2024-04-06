@@ -12,8 +12,8 @@ export const categories = {
             name: 'allowance',
             icon: 'heart'
         },
-        scholarship: {
-            name: 'scholarship',
+        awards: {
+            name: 'awards',
             icon: 'graduation-cap'
         },
     },
@@ -38,8 +38,8 @@ export const categories = {
             name: 'shopping',
             icon: 'shopping-cart'
         },
-        transport: {
-            name: 'transport',
+        transit: {
+            name: 'transit',
             icon: 'car'
         },
         subscription: {

@@ -21,15 +21,15 @@ export const dummy = {
         },
         {
             amount: 205920,
-            category: categories.income.scholarship,
+            category: categories.income.awards,
             type: 'income',
             date: new Date(),
             id: 'tntrhbsawfdbny',
 
         },
         {
-            amount: 2275,
-            category: categories.expense.transport,
+            amount: 200275,
+            category: categories.expense.transit,
             type: 'expense',
             date: new Date(),
             id: 'fr',
