@@ -19,5 +19,11 @@ export const iconList = {
     },
     transport: {
         icon: "pi pi-car"
-    }
+    },
+    shopping: {
+        icon: "pi pi-shopping-cart"
+    },
+    gift: {
+        icon: "pi pi-gift"
+    },
 }
