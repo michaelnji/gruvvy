@@ -17,6 +17,7 @@ export default {
         light: {
           "base-content": "rgb(47, 2, 7)",
           "primary": "rgb(199, 129, 19)",
+          "primary-content": "rgb(255, 237, 213)",
           "secondary": "rgb(67, 2, 7)",
           "success": "#087f5b",
           "success-content": "#c3fae8",

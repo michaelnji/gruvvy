@@ -1,4 +1,5 @@
 <script setup>
+import AddTransactionComp from '@/components/AddTransactionComp.vue';
 import { numToSummary } from '@/lib/scripts/numberFunctions';
 // balance of the user, passed as a prop
 const props = defineProps({
@@ -15,6 +16,7 @@ const props = defineProps({
                 <small>XAF</small> {{ numToSummary(props.balance) }}
             </h2>
             <p class="mt-0.5 !opacity-70 text-lg">Account Balance</p>
+            <AddTransactionComp />
         </div>
         <!-- <div class="p-3 rounded-full bg-base-300">
             <i class="pi pi-wallet text-2xl text-primary "></i>
