@@ -12,7 +12,7 @@ import { storeToRefs } from 'pinia';
 const profileState = useProfile();
 const transactionsState = useTransactions();
 const { profile } = storeToRefs(profileState);
-const { transactions } = storeToRefs(transactionsState);
+// const transactions = transactionsState.filteredTransactions();
 
 
 </script>
@@ -28,7 +28,7 @@ const { transactions } = storeToRefs(transactionsState);
           <h2 class="font-head m-0 !leading-none font-medium  text-2xl">
             Hello {{ profile.name }}
           </h2>
-          <p class="opacity-50"> {{ profile.id }}</p>
+          <p class="opacity-50"> ID: {{ profile.id }}</p>
         </div>
 
       </div>
@@ -45,7 +45,6 @@ const { transactions } = storeToRefs(transactionsState);
       </div>
       <div class="w-full mt-4">
         <BudgetSummaryComp
-          :percentage="profile.budget && profile.usage ? profile.budget_usage / profile.budget * 100 : 0"
           :total="profile.budget" :current="profile.budget_usage" />
       </div>
       <div class="w-full h-0.5  my-8 bg-base-300"></div>
@@ -54,7 +53,7 @@ const { transactions } = storeToRefs(transactionsState);
         Recent Transactions
       </h2>
       <div class="mt-4">
-        <TransactionsList :transactions='[...transactions]' />
+        <TransactionsList :transactions='transactionsState.filteredTransactions()' />
       </div>
     </div>
   </main>

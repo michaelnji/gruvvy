@@ -12,6 +12,7 @@ import { ref } from 'vue';
 const props = defineProps({
     transaction: { required: true }
 });
+
 let popoverIsVisible = ref(false)
 function showPopover() {
     popoverIsVisible.value = true;
@@ -49,10 +50,10 @@ function hidePopover() {
                 <span class="badge !rounded-lg badge-error badge-outline badge-sm"
                     v-if="transaction.type === 'expense'">exp</span>
             </h2>
-            <p class=" opacity-70  ">{{ getReadableDate(transaction.date) }}</p>
+            <!-- <p class=" opacity-70  ">{{ getReadableDate(transaction.date) }}</p> -->
         </div>
         <div class="rounded-xl bg-base-100  p-1.5 px-2 flex !items-center capitalize text-md gap-1 !text-opacity-70">
-            <i :class='`${iconList[transaction.category.icon].icon} !opacity-70 bx-sm`'></i>
+            <i :class='`${iconList[transaction.category.icon].icon} !opacity-70  !bx-sm`'></i>
             {{ transaction.category.name }}
         </div>
     </div>
@@ -69,7 +70,7 @@ function hidePopover() {
                     </button>
                 </div>
                 <p class="text-lg font-semibold opacity-70 py-1 px-3 mb-1 rounded-xl bg-opacity-10 max-w-max"
-                    :class="{ 'text-success bg-success': transaction.type === 'income', 'text-error bg-error': transaction.type === 'expense' }">
+                    :class="{ 'text-success bg-success': transaction.type === 'income', 'text-error bg-error': transaction.type === 'expense' } ">
 
                     <span v-if="transaction.type === 'income'">+</span>
                     <span v-if="transaction.type === 'expense'">-</span>

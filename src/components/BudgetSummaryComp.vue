@@ -1,9 +1,6 @@
 <script setup>
 import { numToSummary } from '@/lib/scripts/numberFunctions';
 defineProps({
-    percentage: {
-        type: Number, required: true
-    },
     total: {
         type: Number, required: true
     },
@@ -23,7 +20,7 @@ defineProps({
                 <b>{{ numToSummary(current) }}</b> / {{ numToSummary(total) }}
             </span>
         </div>
-        <progress class="progress h-4 my-1 w-full" :value='percentage' max="100"></progress>
+        <progress class="progress h-4 my-1 w-full" :value='current / total * 100' max="100"></progress>
 
     </div>
 </template>

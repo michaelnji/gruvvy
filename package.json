@@ -21,8 +21,10 @@
     "css.gg": "^2.1.1",
     "date-fns": "^3.6.0",
     "mathjs": "^12.4.1",
+    "nanoid": "3",
     "pinia": "^2.1.7",
     "primeicons": "^6.0.1",
+    "unoid": "^1.0.0",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"
   },

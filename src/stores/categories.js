@@ -1,13 +1,19 @@
-// import { profileData } from '@/lib/data/profile'
-// import { getOrSetItem } from '@/lib/scripts/db'
-// import { defineStore } from 'pinia'
-// import { ref } from 'vue'
+import { categoriesData } from '@/lib/data/categories'
+import { getOrSetItem } from '@/lib/scripts/db'
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
-// export const useProfile = defineStore('profile', () => {
-
-
-//     let profile = ref(getOrSetItem('pt-profile', profileData))
+export const useCategories = defineStore('categories', () => {
 
 
-//     return { profile, }
-// })
+    let categories = ref(getOrSetItem('pt-categories', categoriesData))
+
+    function getIncomeCategories() {
+        return categories.value.income
+    }
+    function getExpenseCategories() {
+        return categories.value.expense
+    }
+
+    return { categories, getIncomeCategories, getExpenseCategories }
+})

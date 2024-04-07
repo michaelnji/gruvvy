@@ -1,8 +1,10 @@
+import { idGen } from "../utils/secure";
+
 export const profileData = {
     name: 'Michael',
-    id: `${Math.floor(Math.floor(Math.random() * 10999) * Math.floor(Math.random() * 9999990))}`,
+    id: idGen(),
     joinDate: '',
-    budget: 0,
+    budget: 100000,
     budget_usage: 0,
     balance: 0,
     income: 0,
