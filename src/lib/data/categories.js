@@ -50,5 +50,9 @@ export const categoriesData = {
             name: 'crypto',
             icon: 'crypto'
         },
+        rent: {
+            name: 'rent',
+            icon: 'home'
+        }
     },
 }

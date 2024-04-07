@@ -1,6 +1,6 @@
 export const iconList = {
     home: {
-        icon: 'pi pi-home'
+        icon: 'bx bx-home-alt'
     },
     food: {
         icon: 'bx bxs-pizza'
