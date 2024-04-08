@@ -3,67 +3,65 @@ import { useCategories } from '@/stores/categories';
 import { useProfile } from '@/stores/profile';
 import { useTransactions } from '@/stores/transactions';
 import anime from 'animejs';
-import { isNaN, number } from 'mathjs';
+import { number } from "mathjs";
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 let amount
-let date = new Date()
+const date = new Date();
 let note = ''
-let errorMessages = ref('')
-let categoriesState = useCategories()
+const errorMessages = ref("");
+const categoriesState = useCategories();
 const { categories } = storeToRefs(categoriesState)
-let transactionsState = useTransactions()
-let profileState = useProfile()
-let expenseCategories = categoriesState.getExpenseCategories()
-let incomeCategories = categoriesState.getIncomeCategories()
-let chosenCategory = ref('none')
-let currentPopover = ref('#income')
-let popoverIsVisible = ref(false)
+const transactionsState = useTransactions();
+const profileState = useProfile();
+const expenseCategories = categoriesState.getExpenseCategories();
+const incomeCategories = categoriesState.getIncomeCategories();
+const chosenCategory = ref("none");
+const currentPopover = ref("#income");
+const popoverIsVisible = ref(false);
 
 function addTransacton(type) {
-    if (isNaN(parseInt(amount)) || amount <= 0) {
-        errorMessages.value = 'Amount is invalid'
-        return
-    }
+    if (Number.isNaN(Number.parseInt(amount)) || amount <= 0) {
+					errorMessages.value = "Amount is invalid";
+					return;
+				}
 
-    if (chosenCategory.value === 'none') {
-        errorMessages.value = 'Please choose a category'
-        return
-    }
+				if (chosenCategory.value === "none") {
+					errorMessages.value = "Please choose a category";
+					return;
+				}
 
-    const updatedProfile = profileState.profile
-    amount = number(amount)
+				const updatedProfile = profileState.profile;
+				amount = number(amount);
 
-    if (type === "income") {
+				if (type === "income") {
+					updatedProfile.balance = number(updatedProfile.balance + amount);
+					updatedProfile.income = number(updatedProfile.income + amount);
+				}
 
-        updatedProfile.balance = number(updatedProfile.balance + amount)
-        updatedProfile.income = number(updatedProfile.income + amount)
+				if (type === "expense") {
+					if (updatedProfile.balance - amount < 0) {
+						errorMessages.value = "amount is higher than balance";
+						return;
+					}
+					updatedProfile.balance = number(updatedProfile.balance - amount);
+					updatedProfile.expense = number(updatedProfile.expense) + amount;
+					updatedProfile.budget_usage =
+						number(updatedProfile.budget_usage) + amount;
+				}
 
-    }
+				const currentCategoryType = categories.value[type];
+				const newTransaction = {
+					type,
+					date,
+					amount,
+					note,
+					category: currentCategoryType[chosenCategory.value],
+				};
 
-    if (type === "expense") {
-        if (updatedProfile.balance - amount < 0) {
-            errorMessages.value = 'amount is higher than balance'
-            return
-        }
-        updatedProfile.balance = number(updatedProfile.balance - amount)
-        updatedProfile.expense = number(updatedProfile.expense) + amount
-        updatedProfile.budget_usage = number(updatedProfile.budget_usage) + amount
-    }
-
-    const currentCategoryType = categories.value[type]
-    const newTransaction = {
-        type,
-        date,
-        amount,
-        note,
-        category: currentCategoryType[chosenCategory.value],
-
-    }
-
-    transactionsState.addTransaction(newTransaction)
-    profileState.updateProfile(updatedProfile)
-    hidePopover(`#${type}`)
+				transactionsState.addTransaction(newTransaction);
+				profileState.updateProfile(updatedProfile);
+				hidePopover(`#${type}`);
 }
 function showPopover(selector) {
     currentPopover.value = selector

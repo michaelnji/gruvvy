@@ -5,7 +5,8 @@ import { profileData } from "@/lib/data/profile";
 import { useProfile } from "@/stores/profile";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-
+import { storeToRefs } from "pinia";
+const errorMessages = ref("");
 const router = useRouter();
 const currentTab = ref("welcome");
 const chosenDay = ref("none");
@@ -18,12 +19,35 @@ const potentialStartOfTheWeek = [
 	{ name: "Monday", short: "mon" },
 ];
 const profileState = useProfile();
+const { profile } = storeToRefs(profileState);
+
+if(profile.value){
+    router.push('/')
+}
 
 function createUser() {
+	if (!Number.isNaN(Number.parseInt(name)) || !name || name.length <= 1) {
+		errorMessages.value = "Name is invalid.";
+		return;
+	}
+	if (Number.isNaN(budget) || !budget) {
+		errorMessages.value = "Budget is invalid.";
+		return;
+	}
+	if (Number.parseInt(budget) <= 10000) {
+		errorMessages.value = "Budget must be greater than 10,000.";
+		return;
+	}
+	if (chosenDay.value === "none") {
+		errorMessages.value = "Please choose a day";
+		return;
+	}
+
+    errorMessages.value = ''
 	const newProfile = profileData;
-	newProfile.name = name;
+	newProfile.name = name.toString();
 	newProfile.startOfWeek = chosenDay;
-	newProfile.budget = budget;
+	newProfile.budget = Number.parseInt(budget);
 	newProfile.joinDate = today;
 	profileState.updateProfile(newProfile);
 	router.push("/");
@@ -83,7 +107,13 @@ function createUser() {
                     </div>
                 </div>
             </div>
-            <button @click="createUser" class="btn mt-8 btn-primary uppercase w-full">Get Started</button>
+            <Transition>
+                 <div class=" my-3 p-2 rounded-xl text-error bg-error bg-opacity-10 flex gap-x-1 items-center text-base"
+                        v-if="errorMessages">
+                        <i class="bx bx-error-circle"></i> {{ errorMessages }}
+                    </div>
+            </Transition>
+            <button @click="createUser" class="btn mt-4 btn-primary uppercase w-full">Get Started</button>
         </div>
     </div>
 </template>
