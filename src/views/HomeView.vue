@@ -5,13 +5,13 @@ import ExpenseComp from '@/components/ExpenseComp.vue';
 import IncomeComp from '@/components/IncomeComp.vue';
 import navBar from '@/components/NavBar.vue';
 import TransactionsList from '@/components/TransactionsList.vue';
+import { storeToRefs } from 'pinia';
 import { useProfile } from '@/stores/profile';
 import { useTransactions } from '@/stores/transactions';
-import { storeToRefs } from 'pinia';
-
+import BottomNav from '@/components/BottomNav.vue';
 const profileState = useProfile();
-const transactionsState = useTransactions();
 const { profile } = storeToRefs(profileState);
+const transactionsState = useTransactions();
 // const transactions = transactionsState.filteredTransactions();
 
 
@@ -44,8 +44,7 @@ const { profile } = storeToRefs(profileState);
         </div>
       </div>
       <div class="w-full mt-4">
-        <BudgetSummaryComp
-          :total="profile.budget" :current="profile.budget_usage" />
+        <BudgetSummaryComp :total="profile.budget" :current="profile.budget_usage" />
       </div>
       <div class="w-full h-0.5  my-8 bg-base-300"></div>
       <!-- transactions -->
@@ -57,4 +56,7 @@ const { profile } = storeToRefs(profileState);
       </div>
     </div>
   </main>
+  <footer class="fixed  bottom-0 left-0 right-0">
+    <BottomNav />
+  </footer>
 </template>

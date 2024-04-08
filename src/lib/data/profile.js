@@ -1,10 +1,10 @@
 import { idGen } from "../utils/secure";
 
 export const profileData = {
-    name: 'Michael',
+    name: '',
     id: idGen(),
-    joinDate: '',
-    budget: 100000,
+    joinDate: new Date(),
+    budget: 0,
     budget_usage: 0,
     balance: 0,
     income: 0,
