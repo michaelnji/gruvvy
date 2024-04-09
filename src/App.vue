@@ -18,7 +18,7 @@ profileState.updateProfile(userProfile);
 </script>
 
 <template>
-  <div class="">
+  <div class="">              
     <div :data-theme='theme' :class="`${theme}  !bg-base-100 dark:bg-base-300 text-base-content `">
       <div class=" md:max-w-xl md:mx-auto">
         <RouterView/>

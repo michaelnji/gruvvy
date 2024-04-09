@@ -13,7 +13,7 @@ const props = defineProps({
     transaction: { required: true }
 });
 
-let popoverIsVisible = ref(false)
+const popoverIsVisible = ref(false);
 function showPopover() {
     popoverIsVisible.value = true;
     setTimeout(() => {
