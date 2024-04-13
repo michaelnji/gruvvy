@@ -6,11 +6,11 @@ import { idGen } from '@/lib/utils/secure'
 export const useTransactions = defineStore('transactions', () => {
 
 
-    let transactions = ref(getOrSetItem('pt-transactions', []))
+    const transactions = ref(getOrSetItem('pt-transactions', []))
     function addTransaction(transaction) {
-        let mutatedTransaction = {
-            ...transaction,
-            id: idGen()
+        const mutatedTransaction = {
+          ...transaction,
+          id: idGen()
         }
         transactions.value.push(mutatedTransaction)
         return setItemValue('pt-transactions', transactions.value)

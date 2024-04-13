@@ -2,62 +2,83 @@
 import BottomNavBar from '@/components/BottomNav.vue';
 import ChartComp from '@/components/ChartComp.vue';
 import NavBar from '@/components/NavBar.vue';
-import { categoriesData } from '@/lib/data/categories';
 import { iconList } from '@/lib/data/icons';
-import { getDayFromDate, getReadableDate } from "@/lib/scripts/dateManager";
-import { ref } from 'vue';
-const income = {
-	series: {
-		name: "income",
-		data: [1000, 2033, 100, 300, 500, 900],
-	},
-   categories: [11, 12, 15, 16, 18, 19, 21]
-};
-const expense = {
-	series: {
-		name: "expense",
-		data: [500, 203, 1000, 3000, 5000, 1500],
-	},
-   categories: [11, 12, 15, 16, 18, 19, 21]
-};
-const categories = [
-	{
-		name: categoriesData.expense.crypto,
-		amount: 10100,
-		timesAppeared: 9,
-	},
-	{
-		name: categoriesData.expense.food,
-		amount: 14500,
-		timesAppeared: 12,
-	},
-	{
-		name: categoriesData.expense.recreation,
-		amount: 14500,
-		timesAppeared: 19,
-	},
-	{
-		name: categoriesData.expense.subscription,
-		amount: 14500,
-		timesAppeared: 10,
-	},
-];
-const currentChart = ref('income');
+import {
+  getDayFromDate, getReadableDateShort
+} from "@/lib/scripts/dateManager";
+import { extractDatesFromData, extractAmountsFromData, extractAmountsAndDatesFromData, getMostUsedCategory } from '@/lib/utils/stats';
+import { useTransactions } from '@/stores/transactions';
+import { getDate } from 'date-fns';
+import { computed, ref } from 'vue';
+import { setItemValue } from '@/lib/scripts/db'
+import { generateTestData } from '@/lib/data/dummy';
+
+const currentChart = ref("income");
+const transactionsState = useTransactions();
+function sortDatesDescending(dates) {
+  return dates.sort((a, b) => new Date(b).toLocaleString() > new Date(a).toLocaleString() ? 1 : -1);
+}
+
+
+const startIndex = ref(0)
+const endIndex = computed(() => {
+  return startIndex.value + 6
+})
+setItemValue('pt-transactions', [...generateTestData(28, 'income'), ...generateTestData(28, 'expense')].reverse())
+
+
+const data = computed(() => {
+
+  const transactions = [...transactionsState.transactions].sort((a, b) => new Date(b.date).toLocaleString() < new Date(a.date).toLocaleString() ? 1 : -1).reverse()
+  const extractedExpenseDates = [...extractDatesFromData(transactions, "expense").ISODates];
+  const extractedIncomeDates = [...extractDatesFromData(transactions, "income").ISODates];
+  const currentWeek = sortDatesDescending([...new Set([...extractedExpenseDates, ...extractedIncomeDates])]).filter((date, i) => i >= startIndex.value && i <= endIndex.value)
+  let currentWeekDays = []
+
+  for (const item in currentWeek) {
+    currentWeekDays[item] = getDate(new Date(currentWeek[item]))
+    currentWeek[item] = new Date(currentWeek[item])
+  }
+  const currentWeekIncomeTransactionsAmounts = extractAmountsFromData(transactions, 'income', currentWeek).reverse();
+  const currentWeekExpenseTransactionsAmounts = extractAmountsFromData(transactions, 'expense', currentWeek).reverse();
+
+  const currentWeekTransactions = transactions.filter((transaction) => {
+    const transactionDate = new Date(transaction.date)
+    return transactionDate >= new Date(currentWeek[currentWeek.length - 1]) && transactionDate <= new Date(currentWeek[0])
+  })
+
+  const mostExpensiveDay = extractAmountsAndDatesFromData(transactions, 'expense', currentWeek).sort((a, b) =>
+    b.amount < a.amount ? 1 : -1
+  ).reverse()[0]
+
+  currentWeekDays = currentWeekDays.reverse()
+
+  return { currentWeek, currentWeekDays, currentWeekIncomeTransactionsAmounts, currentWeekExpenseTransactionsAmounts, currentWeekTransactions, transactions, mostExpensiveDay }
+});
+
+
+const mostUsedCategories = computed(() => getMostUsedCategory(data.value.currentWeekTransactions));
+const expenseSeries = computed(() => { return { name: 'expense', data: data.value.currentWeekExpenseTransactionsAmounts } })
+const incomeSeries = computed(() => { return { name: 'income', data: data.value.currentWeekIncomeTransactionsAmounts } })
+
+
 </script>
 
 <template>
   <NavBar />
   <main class="px-2 pt-24 pb-20">
     <div class="flex justify-between items-center w-full gap-x-2">
-      <button class="p-2 rounded-xl bg-primary flex items-center text-primary bg-opacity-10">
+      <button class="p-2 rounded-xl bg-primary flex items-center text-primary bg-opacity-10"
+        @click="() => startIndex = data.currentWeek.length < 7 ? 0 : endIndex">
         <i class="bx bxs-left-arrow bx-sm"></i>
       </button>
-      <div
-        class="p-2 flex items-center justify-center rounded-xl text-xl w-full bg-primary  bg-opacity-10 font-medium"
-      >
-        {{ getReadableDate(new Date()) }}
+      <div class="p-2 flex items-center justify-center rounded-xl text-xl w-full bg-primary  bg-opacity-10 font-medium">
+        {{ getReadableDateShort(new Date(data.currentWeek[data.currentWeek.length - 1])) }} - {{
+        getReadableDateShort(new
+        Date(data.currentWeek[0])) }}
       </div>
-      <button class="p-2 rounded-xl bg-primary flex items-center text-primary bg-opacity-10">
+      <button class="p-2 rounded-xl bg-primary flex items-center text-primary bg-opacity-10"
+        @click="() => startIndex = startIndex === 0 ? 0 : startIndex - 6">
         <i class="bx bxs-right-arrow bx-sm"></i>
       </button>
     </div>
@@ -65,61 +86,51 @@ const currentChart = ref('income');
       <div class="flex w-full items-center justify-between">
         <h2 class="font-head m-0 !leading-none font-medium text-2xl">Transactions</h2>
         <div class="dropdown dropdown-bottom menu-dropdown-toggle dropdown-end">
-          <div tabindex="0" role="button" class="btn bg-primary btn-sm text-primary bg-opacity-10  m-1">{{ currentChart }} <i class="bx bx-caret-down"></i></div>
-          <ul
-            tabindex="1"
-            class="dropdown-content  z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-          >
+          <div tabindex="0" role="button" class="btn bg-primary btn-sm text-primary bg-opacity-10  m-1">{{ currentChart
+            }} <i class="bx bx-caret-down"></i></div>
+          <ul tabindex="1" class="dropdown-content  z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
             <li><a @click="currentChart = 'income'">Income</a></li>
             <li><a @click="currentChart = 'expense'">Expenses</a></li>
           </ul>
         </div>
       </div>
       <div class="mt-3">
-        <ChartComp v-if="currentChart === 'income'"
-          type="bar"
-          :series="income.series"
-          color="green"
-          :categories="income.categories"
-          :id="'income'"
-        />
-        <ChartComp v-if="currentChart === 'expense'"
-          type="bar"
-          :series="expense.series"
-          color="red"
-          :categories="expense.categories"
-          :id="'expense'"
-        />
+        <ChartComp v-if="currentChart === 'income'" type="bar" :series="incomeSeries" color="green"
+          :categories="data.currentWeekDays" :id="'income'" />
+        <ChartComp v-if="currentChart === 'expense'" type="bar" :series="expenseSeries" color="red"
+          :categories="data.currentWeekDays" :id="'expense'" />
       </div>
     </div>
     <div class="mt-4 px-4">
-        <div class="rounded-2xl bg-base-200 p-6">
-            <h2 class="font-head m-0 opacity-70 !leading-none text-lg">You spent the most on</h2> 
-            <h1 class="font-extrabold text-3xl"> {{ getDayFromDate(new Date()) }}</h1> 
-        </div>
+      <div class="rounded-2xl bg-base-200 p-6">
+        <h2 class="font-head m-0 opacity-70 !leading-none text-lg">You spent the most on</h2>
+        <h1 class="font-extrabold text-3xl"> {{ getDayFromDate(new Date(data.mostExpensiveDay.date)) }}</h1>
+      </div>
     </div>
     <div class="mt-4 px-4">
-        <div class="rounded-2xl bg-base-200 p-6">
-            <h2 class="font-head m-0 opacity-70 !leading-none font-medium text-lg">Your top categories</h2> 
-            <div class="grid grid-cols-2 mt-6  flex-wrap gap-2">
-                <div v-for="item,i in categories" :key="i" class="p-6 bg-base-100 w-full rounded-2xl flex items-center justify-center  flex-col">
-                    <span>
-                         <i :class='`${iconList[item.name.icon].icon} ! text-primary  bx-lg`'></i>
-                    </span>
-<span class="!opacity-70 my-2 capitalize">{{ item.name.name }}</span>
-<span class="text-4xl font-bold">{{  item.timesAppeared }}</span>
-                </div>
-            </div> 
+      <div class="rounded-2xl bg-base-200 p-6">
+        <h2 class="font-head m-0 opacity-70 !leading-none font-medium text-lg">Your top 4 categories</h2>
+        <div class="grid grid-cols-2 mt-6  flex-wrap gap-2">
+          <div v-for="item, i in mostUsedCategories" :key="i"
+            class="p-6 bg-base-100 w-full rounded-2xl flex items-center justify-center  flex-col">
+            <span>
+              <i :class='`${iconList[item.name.icon].icon} ! text-primary  bx-lg`'></i>
+            </span>
+            <span class="!opacity-70 my-2 capitalize">{{ item.name.name }}</span>
+            <span class="text-4xl font-bold">{{ item.timesAppeared }}</span>
+          </div>
         </div>
+      </div>
     </div>
-     <div class="mt-4 px-4">
-        <div class="rounded-2xl bg-base-200 p-6">
-            <h2 class="font-head m-0 opacity-70 !leading-none text-lg">You followed your budget by</h2> 
-            <div class="mt-6 flex items-center gap-4">
-                <h1 class="font-extrabold text-6xl ">45%</h1> 
-            <div class="h-12 flex items-center justify-center w-12 rounded-full bg-base-100"><i class="bx bx-trending-up text-success bx-sm"></i></div>
-            </div>
+    <div class="mt-4 px-4">
+      <div class="rounded-2xl bg-base-200 p-6">
+        <h2 class="font-head m-0 opacity-70 !leading-none text-lg">You followed your budget by</h2>
+        <div class="mt-6 flex items-center gap-4">
+          <h1 class="font-extrabold text-6xl ">45%</h1>
+          <div class="h-12 flex items-center justify-center w-12 rounded-full bg-base-100"><i
+              class="bx bx-trending-up text-success bx-sm"></i></div>
         </div>
+      </div>
     </div>
   </main>
   <BottomNavBar />

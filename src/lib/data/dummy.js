@@ -1,50 +1,55 @@
-import { categories } from "./categories";
+import { addDays } from 'date-fns'
+import { idGen } from '../utils/secure'
+import { categoriesData } from './categories'
+import { random } from 'mathjs'
 
-// this is just dummy temporary data, will be replaced with actual data
-export const dummy = {
-    transactions: [
-        {
-            amount: 200920,
-            category: categories.expense.food,
-            type: 'expense',
-            date: new Date(),
-            id: 'tntrhbrtdgbny',
+export function generateTestData(amount) {
+  const data = []
+  const IncomecategoriesData = ['awards', 'salary', 'allowance', 'gift']
+  const ExpensecategoriesData = [
+    'transit',
+    'crypto',
+    'food',
+    'internet',
+    'school',
+    'shopping',
+    'recreation',
+    'rent',
+    'subscription'
+  ]
+  const types = ['income', 'expense', 'income']
 
-        },
-        {
-            amount: 20920,
-            category: categories.expense.crypto,
-            type: 'expense',
-            date: new Date(),
-            id: 'tntrhbrbny',
+  for (let i = 0; i < amount; i++) {
+    const type = types[Math.floor(random(0, 2))]
+    let item
+    if (type === 'income') {
+      item = {
+        type,
+        id: idGen(),
+        date: addDays(new Date(), i).toDateString(),
+        amount: Math.floor(random(500, 5000)),
+        category:
+          categoriesData[type][
+            IncomecategoriesData[Math.floor(random(0, IncomecategoriesData.length - 1))]
+          ],
+        note: ''
+      }
+    } else {
+      item = {
+        type,
+        id: idGen(),
+        date: addDays(new Date(), i).toDateString(),
+        amount: Math.floor(random(500, 5000)),
+        category:
+          categoriesData[type][
+            ExpensecategoriesData[Math.floor(random(0, IncomecategoriesData.length - 1))]
+          ],
+        note: ''
+      }
+    }
 
-        },
-        {
-            amount: 205920,
-            category: categories.income.awards,
-            type: 'income',
-            date: new Date(),
-            id: 'tntrhbsawfdbny',
+    data.push(item)
+  }
 
-        },
-        {
-            amount: 200275,
-            category: categories.expense.transit,
-            type: 'expense',
-            date: new Date(),
-            id: 'fr',
-            note: 'Mystery of the Ringmaster Imagine us in Heaven The Saga of the Sphinx Secret of the three-inch visitorHow to outfox a billionaire The edge of dawn'
-
-        },
-        {
-            amount: 21275,
-            category: categories.income.gift,
-            type: 'income',
-            date: new Date(),
-            id: 'f09r',
-            note: 'Mystery of the Ringmaster Imagine us in Heaven The Saga of the Sphinx Secret of the three-inch visitorHow to outfox a billionaire The edge of dawn'
-
-        },
-
-    ]
+  return data
 }

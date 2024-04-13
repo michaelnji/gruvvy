@@ -1,7 +1,7 @@
 
 <script setup>
 import ApexCharts from 'apexcharts';
-import { onMounted } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 const props = defineProps({
 	type: {
 		type: String,
@@ -51,36 +51,49 @@ const defaultOptions = {
 	},
 };
 const bgColor = `${colors[props.color].class} bg-opacity-5`;
-const options = {
-	...defaultOptions,
-	chart: {
-		fontFamily: "Pally",
-		type: props.type,
-		toolbar: {
-			show: false,
+const options = computed(() => {
+	return {
+		...defaultOptions,
+		chart: {
+			fontFamily: "Pally",
+			type: props.type,
+			toolbar: {
+				show: false,
+			},
 		},
-	},
-	series: [
-		{
-			...props.series,
-			color: colors[props.color].name,
+		series: [
+			{
+				...props.series,
+				color: colors[props.color].name,
+			},
+		],
+		xaxis: {
+			categories: props.categories,
 		},
-	],
-	xaxis: {
-		categories: props.categories,
-	},
-};
+	}
+});
 
 
+let chart
 onMounted(() => {
-	console.log(`chart-${props.id}`);
-    const chart = new ApexCharts(document.querySelector(`#chart-${props.id}`), options);
-    chart.render();
+
+	chart = new ApexCharts(document.querySelector(`#chart-${props.id}`), options.value);
+	chart.render();
+});
+
+watch(props, () => {
+	document.querySelector(`#chart-${props.id}`).remove()
+	const newChartElement = document.createElement("div")
+	const container = document.querySelector(`.chart-container-${props.id}`)
+	container.append(newChartElement)
+	newChartElement.id = `chart-${props.id}`
+	chart = new ApexCharts(newChartElement, options.value);
+	chart.render();
 });
 </script>
 
 <template>
-  <div :class="`p-3 rounded-2xl ${bgColor}`">
-    <div :id="`chart-${id}`"></div>
-  </div>
+	<div :class="`p-3 rounded-2xl ${bgColor} chart-container-${id}`">
+		<div :id="`chart-${id}`"></div>
+	</div>
 </template>

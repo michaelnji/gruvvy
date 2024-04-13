@@ -78,19 +78,19 @@ function hidePopover() {
 
                 </p>
                 <h2 class="font-black text-5xl !leading-none mb-4"><small>XAF </small>{{
-        numToSummary(transaction.amount) }}
+                    numToSummary(transaction.amount) }}
                 </h2>
                 <div class="w-full flex items-center gap-3">
                     <span
                         class="font-semibold text-lg text-primary bg-primary bg-opacity-10 py-1 px-3 rounded-xl flex items-center gap-x-2 capitalize"><i
                             :class='`${iconList[transaction.category.icon].icon} !opacity-70 text-xl`'></i>{{
-        transaction.category.name
-    }}</span>
+    transaction.category.name
+}}</span>
                     <span
                         class="font-semibold text-lg text-secondary bg-secondary bg-opacity-10 py-1 px-3 rounded-lg capitalize flex gap-2 items-center max-w-max">
 
                         <span> {{
-            getReadableDate(transaction.date)
+                            getReadableDate(new Date(transaction.date))
                             }}</span></span>
                 </div>
                 <div class="mt-8 text-pretty" v-if="transaction.note">
