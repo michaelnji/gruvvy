@@ -6,18 +6,18 @@ import { iconList } from '@/lib/data/icons';
 import {
   getDayFromDate, getReadableDateShort
 } from "@/lib/scripts/dateManager";
-import { extractDatesFromData, extractAmountsFromData, extractAmountsAndDatesFromData, getMostUsedCategory } from '@/lib/utils/stats';
+import { extractDatesFromData, extractAmountsFromData, extractAmountsAndDatesFromData, getMostUsedCategory, sortDatesDescending } from '@/lib/utils/stats';
 import { useTransactions } from '@/stores/transactions';
 import { getDate } from 'date-fns';
 import { computed, ref } from 'vue';
 import { setItemValue } from '@/lib/scripts/db'
 import { generateTestData } from '@/lib/data/dummy';
+import { numToSummary } from '@/lib/scripts/numberFunctions';
 
 const currentChart = ref("income");
 const transactionsState = useTransactions();
-function sortDatesDescending(dates) {
-  return dates.sort((a, b) => new Date(b).toLocaleString() > new Date(a).toLocaleString() ? 1 : -1);
-}
+
+
 
 
 const startIndex = ref(0)
@@ -30,6 +30,7 @@ setItemValue('pt-transactions', [...generateTestData(28, 'income'), ...generateT
 const data = computed(() => {
 
   const transactions = [...transactionsState.transactions].sort((a, b) => new Date(b.date).toLocaleString() < new Date(a.date).toLocaleString() ? 1 : -1).reverse()
+
   const extractedExpenseDates = [...extractDatesFromData(transactions, "expense").ISODates];
   const extractedIncomeDates = [...extractDatesFromData(transactions, "income").ISODates];
   const currentWeek = sortDatesDescending([...new Set([...extractedExpenseDates, ...extractedIncomeDates])]).filter((date, i) => i >= startIndex.value && i <= endIndex.value)
@@ -59,7 +60,16 @@ const data = computed(() => {
 
 const mostUsedCategories = computed(() => getMostUsedCategory(data.value.currentWeekTransactions));
 const expenseSeries = computed(() => { return { name: 'expense', data: data.value.currentWeekExpenseTransactionsAmounts } })
-const incomeSeries = computed(() => { return { name: 'income', data: data.value.currentWeekIncomeTransactionsAmounts } })
+const incomeSeries = computed(() => { return { name: 'income', data: data.value.currentWeekIncomeTransactionsAmounts } });
+const avgDailySpending = computed(() => {
+  let amount = 0
+  for (const a in data.value.currentWeekExpenseTransactionsAmounts) {
+    const element = data.value.currentWeekExpenseTransactionsAmounts[a];
+    amount = amount + element
+  }
+  return Math.floor(amount / data.value.currentWeekExpenseTransactionsAmounts.length)
+
+})
 
 
 </script>
@@ -124,11 +134,10 @@ const incomeSeries = computed(() => { return { name: 'income', data: data.value.
     </div>
     <div class="mt-4 px-4">
       <div class="rounded-2xl bg-base-200 p-6">
-        <h2 class="font-head m-0 opacity-70 !leading-none text-lg">You followed your budget by</h2>
+        <h2 class="font-head m-0 opacity-70 !leading-none text-lg"> Average daily spending</h2>
         <div class="mt-6 flex items-center gap-4">
-          <h1 class="font-extrabold text-6xl ">45%</h1>
-          <div class="h-12 flex items-center justify-center w-12 rounded-full bg-base-100"><i
-              class="bx bx-trending-up text-success bx-sm"></i></div>
+          <h1 class="font-extrabold text-5xl "><small class="text-2xl">XAF</small> {{ numToSummary(avgDailySpending) }}
+          </h1>
         </div>
       </div>
     </div>

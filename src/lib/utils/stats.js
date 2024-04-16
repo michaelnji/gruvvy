@@ -1,5 +1,7 @@
 import { categoriesData } from '@/lib/data/categories'
 import { getDate } from 'date-fns'
+
+
 export function filterTransactionsByDateRange(transactions, startDate, endDate) {
   const start = new Date(startDate)
   const end = new Date(endDate)
@@ -13,6 +15,8 @@ export function filterTransactionsByDateRange(transactions, startDate, endDate) 
   return filteredTransactions
 }
 
+// extracts and formats the unique dates/days of the given array of transactions, many with the same date
+//? used to generate days for the x-axis of the chart (income & expense)
 export function extractDatesFromData(data, type) {
   let dates = []
   let days = []
@@ -124,4 +128,10 @@ export function getMostUsedCategory(data) {
   }
 
   return categories
+}
+
+export function sortDatesDescending(dates) {
+  return dates.sort((a, b) =>
+    new Date(b).toLocaleString() > new Date(a).toLocaleString() ? 1 : -1
+  )
 }
