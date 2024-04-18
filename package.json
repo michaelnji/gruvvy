@@ -16,6 +16,7 @@
   "dependencies": {
     "@vue-hero-icons/outline": "^1.7.2",
     "@vue-hero-icons/solid": "^1.7.2",
+    "@vueuse/core": "^10.9.0",
     "animejs": "^3.2.2",
     "apexcharts": "^3.48.0",
     "boxicons": "^2.1.4",

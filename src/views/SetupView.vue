@@ -3,9 +3,10 @@ import LogoComp from "@/components/LogoComp.vue";
 import NavBar from "@/components/NavBar.vue";
 import { profileData } from "@/lib/data/profile";
 import { useProfile } from "@/stores/profile";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import anime from 'animejs';
 import { storeToRefs } from "pinia";
+import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 const errorMessages = ref("");
 const router = useRouter();
 const currentTab = ref("welcome");
@@ -14,47 +15,75 @@ let name;
 let budget;
 const today = new Date();
 const potentialStartOfTheWeek = [
-	{ name: "Saturday", short: "sat" },
-	{ name: "Sunday", short: "sun" },
-	{ name: "Monday", short: "mon" },
+    { name: "Saturday", short: "sat" },
+    { name: "Sunday", short: "sun" },
+    { name: "Monday", short: "mon" },
 ];
 const profileState = useProfile();
 const { profile } = storeToRefs(profileState);
 
-if(profile.value){
+if (profile.value) {
     router.push('/')
 }
 
 function createUser() {
-	if (!Number.isNaN(Number.parseInt(name)) || !name || name.length <= 1) {
-		errorMessages.value = "Name is invalid.";
-		return;
-	}
-	if (Number.isNaN(budget) || !budget) {
-		errorMessages.value = "Budget is invalid.";
-		return;
-	}
-	if (Number.parseInt(budget) <= 10000) {
-		errorMessages.value = "Budget must be greater than 10,000.";
-		return;
-	}
-	if (chosenDay.value === "none") {
-		errorMessages.value = "Please choose a day";
-		return;
-	}
+    if (!Number.isNaN(Number.parseInt(name)) || !name || name.length <= 1) {
+        errorMessages.value = "Name is invalid.";
+        return;
+    }
+    if (Number.isNaN(budget) || !budget) {
+        errorMessages.value = "Budget is invalid.";
+        return;
+    }
+    if (Number.parseInt(budget) <= 10000) {
+        errorMessages.value = "Budget must be greater than 10,000.";
+        return;
+    }
+    if (chosenDay.value === "none") {
+        errorMessages.value = "Please choose a day";
+        return;
+    }
 
     errorMessages.value = ''
-	const newProfile = profileData;
-	newProfile.name = name.toString();
-	newProfile.startOfWeek = chosenDay;
-	newProfile.budget = Number.parseInt(budget);
-	newProfile.joinDate = today;
-	profileState.updateProfile(newProfile);
-	router.push("/");
+    const newProfile = profileData;
+    newProfile.name = name.toString();
+    newProfile.startOfWeek = chosenDay;
+    newProfile.budget = Number.parseInt(budget);
+    newProfile.joinDate = today;
+    profileState.updateProfile(newProfile);
+    router.push("/");
+}
+onMounted(() => {
+    anime({
+        targets: '.welcome',
+        opacity: 1,
+        scale: {
+            value: 1,
+
+        },
+        duration: 500,
+        easing: 'easeOutElastic(2,2)',
+    })
+});
+function showSetup() {
+    currentTab.value = 'setup-1'
+    setTimeout(() => {
+        anime({
+            targets: '.setup',
+            opacity: 1,
+            scale: {
+                value: 1,
+
+            },
+            duration: 500,
+            easing: 'easeOutElastic(2,2)',
+        })
+    }, 10);
 }
 </script>
 <template>
-    <div class="w-full bg-base-100 p-6 grid place-items-center" v-if="currentTab === 'welcome'">
+    <div class="w-full bg-base-100 welcome opacity-0 p-6 grid place-items-center" v-if="currentTab === 'welcome'"
+        style="transform: scale(.98);">
         <div class="w-full">
             <div class="w-full flex justify-center">
                 <p class="btn btn-ghost text-primary text-2xl font-bold font-head">
@@ -64,7 +93,9 @@ function createUser() {
             <img src="/wallet.svg" class="!m-0 object-cover" alt="" />
             <div class="mx-auto">
                 <h2 class="font-bold text-4xl text-center">Track your spending habits with ease.</h2>
-                <button @click="currentTab = 'setup-1'" class="btn mt-8 btn-primary uppercase w-full">Let's Go</button>
+                <button @click="showSetup" class="btn mt-8 btn-primary uppercase w-full
+                    
+                    ">Let's Go</button>
             </div>
         </div>
         <div
@@ -77,7 +108,8 @@ function createUser() {
         </div>
     </div>
     <NavBar v-if="currentTab === 'setup-1'" />
-    <div class="w-full bg-base-100 p-6 pt-24 grid place-items-center" v-if="currentTab === 'setup-1'">
+    <div class="w-full bg-base-100 p-3 pt-24 setup opacity-0 grid place-items-center" v-if="currentTab === 'setup-1'"
+        style="transform: scale(.98);">
         <div class="w-full">
             <h2 class="font-bold text-3xl">Let's get you setup</h2>
             <div class="mt-6 w-full rounded-3xl bg-base-300 p-6">
@@ -95,23 +127,23 @@ function createUser() {
                     </div>
                 </label>
                 <h2 class="font-medium text-lg opacity-70 mt-6">Beginning of the week?</h2>
-                <div class="mt-3 flex gap-2 flex-wrap w-full p-3 bg-base-200 bg-opacity-60 rounded-xl">
+                <div class="mt-3 flex gap-2 flex-wrap w-full">
                     <div v-for="(item, i) in potentialStartOfTheWeek" :key="i" @click="() => {
         chosenDay = chosenDay === item.name ? 'none' : item.name
     }
         " :class="{ '!bg-opacity-100 !text-primary-content': chosenDay === item.name }"
-                        class="p-1 px-3 rounded-lg border border-primary border-opacity-60 bg-primary text-primary bg-opacity-10 font-bold flex items-center gap-x-0.5 uppercase text-sm">
-                        <i v-if="chosenDay !== item.name" class="bx bx-plus"></i>
-                        <i v-if="chosenDay === item.name" class="bx bx-check"></i>
+                        class="p-1 cursor-pointer px-3 rounded-lg border border-primary border-opacity-60 bg-primary bg-opacity-10 font-bold flex items-center gap-x-0.5 uppercase text-base">
+
+                        <i v-if="chosenDay === item.name" class="bx bx-check bx-sm"></i>
                         <span>{{ item.short }}</span>
                     </div>
                 </div>
             </div>
             <Transition>
-                 <div class=" my-3 p-2 rounded-xl text-error bg-error bg-opacity-10 flex gap-x-1 items-center text-base"
-                        v-if="errorMessages">
-                        <i class="bx bx-error-circle"></i> {{ errorMessages }}
-                    </div>
+                <div class=" my-3 p-2 rounded-xl text-error bg-error bg-opacity-10 flex gap-x-1 items-center text-base"
+                    v-if="errorMessages">
+                    <i class="bx bx-error-circle"></i> {{ errorMessages }}
+                </div>
             </Transition>
             <button @click="createUser" class="btn mt-4 btn-primary uppercase w-full">Get Started</button>
         </div>

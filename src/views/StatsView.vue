@@ -9,10 +9,9 @@ import {
 import { extractDatesFromData, extractAmountsFromData, extractAmountsAndDatesFromData, getMostUsedCategory, sortDatesDescending } from '@/lib/utils/stats';
 import { useTransactions } from '@/stores/transactions';
 import { getDate } from 'date-fns';
-import { computed, ref } from 'vue';
-import { setItemValue } from '@/lib/scripts/db'
-import { generateTestData } from '@/lib/data/dummy';
+import { computed, onMounted, ref } from 'vue';
 import { numToSummary } from '@/lib/scripts/numberFunctions';
+import anime from 'animejs';
 
 const currentChart = ref("income");
 const transactionsState = useTransactions();
@@ -24,7 +23,7 @@ const startIndex = ref(0)
 const endIndex = computed(() => {
   return startIndex.value + 6
 })
-setItemValue('pt-transactions', [...generateTestData(28, 'income'), ...generateTestData(28, 'expense')].reverse())
+
 
 
 const data = computed(() => {
@@ -69,14 +68,24 @@ const avgDailySpending = computed(() => {
   }
   return Math.floor(amount / data.value.currentWeekExpenseTransactionsAmounts.length)
 
-})
+});
 
+onMounted(() => {
+  anime({
+    targets: '.i',
+    opacity: 1,
+    scale: 1,
+    duration: 500,
+    easing: 'easeOutElastic(2,2)',
+  })
+});
 
 </script>
 
 <template>
   <NavBar />
-  <main class="px-2 pt-24 pb-20">
+  <!-- ! potential bug, which prevents stats from being rendered if week isn't complete. Investigation in progress -->
+  <main class="px-2 pt-24 pb-28 i opacity-0" style="transform: scale(0.98);" v-if="data.currentWeek.length >= 7">
     <div class="flex justify-between items-center w-full gap-x-2">
       <button class="p-2 rounded-xl bg-primary flex items-center text-primary bg-opacity-10"
         @click="() => startIndex = data.currentWeek.length < 7 ? 0 : endIndex">
@@ -113,13 +122,13 @@ const avgDailySpending = computed(() => {
     </div>
     <div class="mt-4 px-4">
       <div class="rounded-2xl bg-base-200 p-6">
-        <h2 class="font-head m-0 opacity-70 !leading-none text-lg">You spent the most on</h2>
-        <h1 class="font-extrabold text-3xl"> {{ getDayFromDate(new Date(data.mostExpensiveDay.date)) }}</h1>
+        <h2 class=" m-0 opacity-70 !leading-none text-lg">You spent the most on</h2>
+        <h1 class="font-extrabold font-head text-3xl"> {{ getDayFromDate(new Date(data.mostExpensiveDay.date)) }}</h1>
       </div>
     </div>
     <div class="mt-4 px-4">
       <div class="rounded-2xl bg-base-200 p-6">
-        <h2 class="font-head m-0 opacity-70 !leading-none font-medium text-lg">Your top 4 categories</h2>
+        <h2 class=" m-0 opacity-70 !leading-none font-medium text-lg">Your top 4 categories</h2>
         <div class="grid grid-cols-2 mt-6  flex-wrap gap-2">
           <div v-for="item, i in mostUsedCategories" :key="i"
             class="p-6 bg-base-100 w-full rounded-2xl flex items-center justify-center  flex-col">
@@ -127,20 +136,32 @@ const avgDailySpending = computed(() => {
               <i :class='`${iconList[item.name.icon].icon} ! text-primary  bx-lg`'></i>
             </span>
             <span class="!opacity-70 my-2 capitalize">{{ item.name.name }}</span>
-            <span class="text-4xl font-bold">{{ item.timesAppeared }}</span>
+            <span class="text-4xl font-bold font-head">{{ item.timesAppeared }}</span>
           </div>
         </div>
       </div>
     </div>
     <div class="mt-4 px-4">
       <div class="rounded-2xl bg-base-200 p-6">
-        <h2 class="font-head m-0 opacity-70 !leading-none text-lg"> Average daily spending</h2>
+        <h2 class=" m-0 opacity-70 !leading-none text-lg"> Average daily spending</h2>
         <div class="mt-6 flex items-center gap-4">
-          <h1 class="font-extrabold text-5xl "><small class="text-2xl">XAF</small> {{ numToSummary(avgDailySpending) }}
+          <h1 class="font-extrabold font-head text-5xl "><small class="text-2xl">XAF</small> {{
+    numToSummary(avgDailySpending) }}
           </h1>
         </div>
       </div>
     </div>
+  </main>
+  <main class="px-2 pt-24 pb-28 i opacity-0" style="transform: scale(0.98);" v-if="data.currentWeek.length < 7">
+    <img src="/stats.svg" alt="">
+
+    <h2 class="font-head text-3xl font-medium text-center">
+      Not enough data yet
+    </h2>
+    <p class="opacity-80 mt-4 text-md text-center text-pretty">Continue using PayTrack for at least 7 days to see
+      statistics
+    </p>
+
   </main>
   <BottomNavBar />
 </template>

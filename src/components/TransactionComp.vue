@@ -43,7 +43,7 @@ function hidePopover() {
 <template>
     <div class=" bg-base-200 rounded-2xl p-3  flex items-center justify-between gap-3" @click="showPopover">
         <div>
-            <h2 class=" text-2xl flex gap-x-2 items-center  font-medium">
+            <h2 class=" text-2xl flex gap-x-2 items-center  font-head font-medium">
                 <span> <small class="text-sm">XAF </small> {{ numToSummary(transaction.amount) }}</span>
                 <span class="badge !rounded-xl badge-success badge-outline badge-sm"
                     v-if="transaction.type === 'income'">inc</span>
@@ -70,37 +70,37 @@ function hidePopover() {
                     </button>
                 </div>
                 <p class="text-lg font-semibold opacity-70 py-1 px-3 mb-1 rounded-xl bg-opacity-10 max-w-max"
-                    :class="{ 'text-success bg-success': transaction.type === 'income', 'text-error bg-error': transaction.type === 'expense' } ">
+                    :class="{ 'text-success bg-success': transaction.type === 'income', 'text-error bg-error': transaction.type === 'expense' }">
 
                     <span v-if="transaction.type === 'income'">+</span>
                     <span v-if="transaction.type === 'expense'">-</span>
                     {{ transaction.type }}
 
                 </p>
-                <h2 class="font-black text-5xl !leading-none mb-4"><small>XAF </small>{{
-                    numToSummary(transaction.amount) }}
+                <h2 class="font-black text-5xl font-head !leading-none mb-4"><small>XAF </small>{{
+        numToSummary(transaction.amount) }}
                 </h2>
                 <div class="w-full flex items-center gap-3">
                     <span
                         class="font-semibold text-lg text-primary bg-primary bg-opacity-10 py-1 px-3 rounded-xl flex items-center gap-x-2 capitalize"><i
                             :class='`${iconList[transaction.category.icon].icon} !opacity-70 text-xl`'></i>{{
-    transaction.category.name
-}}</span>
+        transaction.category.name
+    }}</span>
                     <span
                         class="font-semibold text-lg text-secondary bg-secondary bg-opacity-10 py-1 px-3 rounded-lg capitalize flex gap-2 items-center max-w-max">
 
                         <span> {{
-                            getReadableDate(new Date(transaction.date))
-                            }}</span></span>
+            getReadableDate(new Date(transaction.date))
+        }}</span></span>
                 </div>
                 <div class="mt-8 text-pretty" v-if="transaction.note">
                     <h2 class="font-black text-3xl mb-2">Note</h2>
-                    <div class="p-6 rounded-3xl bg-base-200 text-xl font-medium">
+                    <div class="p-6 rounded-3xl bg-base-200 text-lg font-medium font-head ">
                         <p class="opacity-80">{{ transaction.note }}</p>
                     </div>
                 </div>
                 <div class="mt-8" v-if="!transaction.note">
-                    <h2 class="font-black opacity-25 text-3xl mb-2">No Note</h2>
+                    <h2 class="font-black font-head opacity-25 text-3xl mb-2">No Note</h2>
 
                 </div>
             </div>

@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from 'node:url'
-// import webfontDownload from 'vite-plugin-webfont-dl';
+import webfontDownload from 'vite-plugin-webfont-dl'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -15,6 +15,7 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,ttf,eot,woff}']
       },
+      includeAssets: ['**/*.{js,css,html,ico,png,svg,woff2,ttf,eot,woff}'],
       manifest: {
         name: 'Paytrack',
         short_name: 'Paytrack',
@@ -72,8 +73,11 @@ export default defineConfig({
       devOptions: {
         enabled: true
       }
-    })
-    //  webfontDownload(["https://api.fontshare.com/v2/css?f[]=pally@400,500,700&display=swap"])
+    }),
+    webfontDownload([
+      'https://api.fontshare.com/v2/css?f[]=pally@400,500,700&display=swap',
+      'https://api.fontshare.com/v2/css?f[]=manrope@200,300,400,500,600,700,800&display=swap'
+    ])
   ],
   resolve: {
     alias: {

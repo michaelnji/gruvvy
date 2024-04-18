@@ -1,32 +1,45 @@
 <script setup>
 import BalanceComp from '@/components/BalanceComp.vue';
+import BottomNav from '@/components/BottomNav.vue';
 import BudgetSummaryComp from '@/components/BudgetSummaryComp.vue';
 import ExpenseComp from '@/components/ExpenseComp.vue';
 import IncomeComp from '@/components/IncomeComp.vue';
 import navBar from '@/components/NavBar.vue';
 import TransactionsList from "@/components/TransactionsList.vue";
-import { useTransactions } from '@/stores/transactions';
-import BottomNav from '@/components/BottomNav.vue';
-import { storeToRefs } from "pinia";
 import { useProfile } from "@/stores/profile";
+import { useTransactions } from '@/stores/transactions';
+import anime from 'animejs';
+import { storeToRefs } from "pinia";
+import { onMounted } from 'vue';
 const profileState = useProfile();
 const { profile } = storeToRefs(profileState);
 const transactionsState = useTransactions();
 // const transactions = transactionsState.filteredTransactions();
+onMounted(() => {
+  anime({
+    targets: '.h',
+    opacity: 1,
+    scale: {
+      value: 1,
 
+    },
+    duration: 500,
+    easing: 'easeOutElastic(2,2)',
+  })
+});
 
 </script>
 
 <template>
-  <main class=" pb-20 relative">
+  <main class=" pb-28 relative">
 
     <navBar />
-    <div class="pt-24  px-4 ">
+    <div class="pt-24  px-4 h opacity-0" style="transform: scale(.98);">
       <div v-if="profile.name" class="flex items-center gap-3">
         <button class="btn btn-circle !uppercase  text-xl btn-primary">{{ profile.name.split('')[0] }}</button>
         <div>
           <h2 class="font-head m-0 !leading-none font-medium  text-2xl">
-            Hello {{ profile.name }}
+            {{ profile.name }}
           </h2>
           <p class="opacity-50"> ID: {{ profile.id }}</p>
         </div>

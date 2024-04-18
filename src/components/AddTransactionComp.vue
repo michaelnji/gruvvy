@@ -111,7 +111,7 @@ function hidePopover(selector) {
                 <div class=" max-h-dvh p-6 overflow-y-scroll">
                     <div
                         class="flex items-center justify-between fixed w-full px-6 py-3 bg-base-100 top-0 left-0 right-0 rounded-t-3xl z-10 border-b border-primary !border-opacity-30">
-                        <h2 class="font-bold text-3xl">Add Income</h2>
+                        <h2 class="font-bold text-3xl font-head">Add Income</h2>
                         <button @click="hidePopover(currentPopover)" class="btn btn-ghost btn-circle">
                             <i class="bx bx-x bx-md"></i>
                         </button>
@@ -121,7 +121,7 @@ function hidePopover(selector) {
                         <label class="form-control !m-0 w-full ">
                             <div class="label">
                                 <span class="label-text">
-                                    <h3 class="font-bold text-xl mt-6 opacity-80">Amount</h3>
+                                    <h3 class="font-bold text-xl mt-6 opacity-80 font-head">Amount</h3>
                                 </span>
 
                             </div>
@@ -132,19 +132,19 @@ function hidePopover(selector) {
 
                         </label>
                     </div>
-                    <h3 class="font-bold text-xl mt-8 opacity-80">Category</h3>
+                    <h3 class="font-bold text-xl mt-8 opacity-80 font-head">Category</h3>
                     <p class="opacity-70 text-sm">Choose only one</p>
-                    <div class="mt-3 flex gap-2 flex-wrap w-full p-3 bg-base-200 bg-opacity-60 rounded-xl">
+                    <div class="mt-3 flex gap-2 flex-wrap">
                         <div v-for="item, i in incomeCategories" :key="i" @click="() => {
                 chosenCategory = chosenCategory === item.name ? 'none' : item.name
             }" :class="{ '!bg-opacity-100 !text-primary-content': chosenCategory === item.name }"
-                            class="p-1 px-3 rounded-lg border border-primary border-opacity-60 bg-primary text-primary bg-opacity-10 font-bold flex items-center gap-x-0.5 text-sm">
+                            class="p-1 px-3 rounded-lg cursor-pointer border border-primary border-opacity-60 bg-primary text-primary bg-opacity-10 font-bold flex items-center gap-x-0.5 text-sm">
                             <i v-if="chosenCategory !== item.name" class="bx bx-plus"></i>
                             <i v-if="chosenCategory === item.name" class="bx bx-check"></i>
                             <span>{{ item.name }}</span>
                         </div>
                     </div>
-                    <h3 class="font-bold text-xl mt-6 opacity-80">Notes </h3>
+                    <h3 class="font-bold text-xl mt-6 opacity-80 font-head">Notes </h3>
                     <div class="my-3">
                         <textarea class="textarea rounded-2xl textarea-bordered w-full h-24" v-model="note"
                             placeholder="notes"></textarea>
@@ -153,7 +153,8 @@ function hidePopover(selector) {
                         v-if="errorMessages">
                         <i class="bx bx-error-circle"></i> {{ errorMessages }}
                     </div>
-                    <button class="btn btn-primary w-full rounded-2xl mx-auto" @click="addTransacton('income')">Add
+                    <button class="btn btn-primary font-head w-full rounded-2xl mx-auto"
+                        @click="addTransacton('income')">Add
                         Income</button>
                 </div>
             </div>
@@ -163,7 +164,7 @@ function hidePopover(selector) {
                 <div class=" max-h-dvh p-6 overflow-y-scroll">
                     <div
                         class="flex items-center justify-between fixed w-full px-6 py-3 bg-base-100 top-0 left-0 right-0 rounded-t-3xl z-10 border-b border-primary !border-opacity-30">
-                        <h2 class="font-bold text-3xl">Add Expense</h2>
+                        <h2 class="font-bold text-3xl font-head">Add Expense</h2>
                         <button @click="hidePopover(currentPopover)" class="btn btn-ghost btn-circle">
                             <i class="bx bx-x bx-md"></i>
                         </button>
@@ -173,7 +174,7 @@ function hidePopover(selector) {
                         <label class="form-control w-full ">
                             <div class="label">
                                 <span class="label-text">
-                                    <h3 class="font-bold text-xl mt-6 opacity-80">Amount</h3>
+                                    <h3 class="font-bold text-xl mt-6 opacity-80 font-head">Amount</h3>
                                 </span>
 
                             </div>
@@ -184,19 +185,19 @@ function hidePopover(selector) {
 
                         </label>
                     </div>
-                    <h3 class="font-bold text-xl mt-8 opacity-80">Category</h3>
+                    <h3 class="font-bold text-xl mt-8 opacity-80 font-head">Category</h3>
                     <p class="opacity-70 text-sm">Choose only one</p>
-                    <div class="mt-3 flex gap-2 flex-wrap w-full p-3 bg-base-200 bg-opacity-60 rounded-xl">
+                    <div class="mt-3 flex gap-2 flex-wrap w-full">
                         <div v-for="item, i in expenseCategories" :key="i"
                             @click="chosenCategory = chosenCategory === item.name ? 'none' : item.name"
                             :class="{ '!bg-opacity-100 !text-primary-content': chosenCategory === item.name }"
-                            class="p-1 px-3 rounded-lg border border-primary border-opacity-60 bg-primary text-primary bg-opacity-10 font-bold flex items-center gap-x-0.5 text-sm">
+                            class="p-1 px-3 rounded-lg cursor-pointer border border-primary border-opacity-60 bg-primary text-primary bg-opacity-10 font-bold flex items-center gap-x-0.5 text-sm">
                             <i v-if="chosenCategory !== item.name" class="bx bx-plus"></i>
                             <i v-if="chosenCategory === item.name" class="bx bx-check"></i>
                             <span>{{ item.name }}</span>
                         </div>
                     </div>
-                    <h3 class="font-bold text-xl mt-6 opacity-80">Notes</h3>
+                    <h3 class="font-bold text-xl mt-6 opacity-80 font-head">Notes</h3>
                     <div class="my-3">
                         <textarea v-model="note" class="textarea rounded-2xl textarea-bordered w-full h-24"
                             placeholder="notes"></textarea>
@@ -205,7 +206,8 @@ function hidePopover(selector) {
                         v-if="errorMessages">
                         <i class="bx bx-error-circle"></i> {{ errorMessages }}
                     </div>
-                    <button @click="addTransacton('expense')" class="btn btn-primary w-full rounded-2xl mx-auto">Add
+                    <button @click="addTransacton('expense')"
+                        class="btn btn-primary w-full rounded-2xl font-head mx-auto">Add
                         Expense</button>
                 </div>
             </div>
