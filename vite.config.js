@@ -66,8 +66,8 @@ export default defineConfig({
             type: 'image/png'
           }
         ],
-        theme_color: '#ffffff',
-        background_color: '#ffffff',
+        theme_color: 'rgb(199, 129, 19)',
+        background_color: '#ffe8cc',
         display: 'standalone'
       }
     }),
