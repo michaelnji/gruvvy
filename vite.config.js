@@ -70,11 +70,11 @@ export default defineConfig({
         background_color: '#ffffff',
         display: 'standalone'
       }
-    })
-    // webfontDownload([
-    //   'https://api.fontshare.com/v2/css?f[]=pally@400,500,700&display=swap',
-    //   'https://api.fontshare.com/v2/css?f[]=manrope@200,300,400,500,600,700,800&display=swap'
-    // ])
+    }),
+    webfontDownload([
+      'https://api.fontshare.com/v2/css?f[]=pally@400,500,700&display=swap',
+      'https://api.fontshare.com/v2/css?f[]=manrope@200,300,400,500,600,700,800&display=swap'
+    ])
   ],
   resolve: {
     alias: {
