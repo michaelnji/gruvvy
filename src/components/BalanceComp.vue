@@ -16,7 +16,7 @@ const props = defineProps({
                 <small class="text-lg">XAF</small> {{ numToSummary(props.balance) }}
             </h2>
             <p class="mt-0.5 !opacity-70 text-lg">Account Balance</p>
-            <AddTransactionComp />
+
         </div>
         <!-- <div class="p-3 rounded-full bg-base-300">
             <i class="pi pi-wallet text-2xl text-primary "></i>

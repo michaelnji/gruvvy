@@ -1,9 +1,9 @@
-import { fileURLToPath, URL } from 'node:url'
-import webfontDownload from 'vite-plugin-webfont-dl'
-import { defineConfig } from 'vite'
+import { URL, fileURLToPath } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import webfontDownload from 'vite-plugin-webfont-dl'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -69,15 +69,12 @@ export default defineConfig({
         theme_color: '#ffffff',
         background_color: '#ffffff',
         display: 'standalone'
-      },
-      devOptions: {
-        enabled: true
       }
-    }),
-    webfontDownload([
-      'https://api.fontshare.com/v2/css?f[]=pally@400,500,700&display=swap',
-      'https://api.fontshare.com/v2/css?f[]=manrope@200,300,400,500,600,700,800&display=swap'
-    ])
+    })
+    // webfontDownload([
+    //   'https://api.fontshare.com/v2/css?f[]=pally@400,500,700&display=swap',
+    //   'https://api.fontshare.com/v2/css?f[]=manrope@200,300,400,500,600,700,800&display=swap'
+    // ])
   ],
   resolve: {
     alias: {

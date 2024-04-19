@@ -6,6 +6,8 @@ import anime from 'animejs';
 import { number } from "mathjs";
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
+import { onClickOutside } from '@vueuse/core'
+
 let amount
 const date = new Date();
 let note = ''
@@ -19,7 +21,8 @@ const incomeCategories = categoriesState.getIncomeCategories();
 const chosenCategory = ref("none");
 const currentPopover = ref("#income");
 const popoverIsVisible = ref(false);
-
+const optionsIsVisible = ref(false);
+const target = ref(null)
 function addTransacton(type) {
     if (Number.isNaN(Number.parseInt(amount)) || amount <= 0) {
 					errorMessages.value = "Amount is invalid";
@@ -68,6 +71,12 @@ function showPopover(selector) {
     popoverIsVisible.value = true;
     setTimeout(() => {
         anime({
+            targets: '.overlay',
+            opacity: 1,
+            duration: 2000
+
+        });
+        anime({
             targets: selector,
             translateY: '0px',
             easing: 'easeOutElastic(2,2)',
@@ -81,6 +90,7 @@ function hidePopover(selector) {
     note = null
     chosenCategory.value = 'none'
     errorMessages.value = ''
+    optionsIsVisible.value = false;
 
     anime({
         targets: selector,
@@ -89,128 +99,189 @@ function hidePopover(selector) {
         duration: 2600
 
     });
+    anime({
+        targets: '.overlay',
+        opacity: 0,
+        duration: 2700
+
+    });
     setTimeout(() => {
         popoverIsVisible.value = false;
     }, 400)
 }
+function toggleOptions() {
+    if (optionsIsVisible.value) {
+        anime({
+            targets: '.options',
+            opacity: 0,
+            easing: 'easeOutElastic(1,2)',
+            duration: 300
+
+        });
+
+        optionsIsVisible.value = false;
+
+        return
+    }
+    optionsIsVisible.value = true;
+    setTimeout(() => {
+        anime({
+            targets: '.options',
+            translateY: '-9rem',
+            opacity: 1,
+            easing: 'easeOutElastic(1,2)',
+            duration: 600
+
+        });
+    }, 100);
+
+}
+
+// onClickOutside(target => {
+//     optionsIsVisible.value = false
+//     console.log(target)
+// });
 </script>
 
 <template>
-    <div class="mt-6 flex gap-3"> <button class="btn btn-outline btn-primary text-xl btn-circle "
-            @click="showPopover('#income')"><i class="bx bx-plus bx-md"></i></button>
-        <button class="btn btn-outline btn-circle btn-primary text-xl " @click="showPopover('#expense')"><i
-                class="bx bx-minus bx-md"></i></button>
+    <div class="relative">
+        <div v-if="optionsIsVisible" ref="target"
+            class="flex p-6 absolute z-20 gap-x-6 rounded-3xl bg-base-100 border border-primary border-opacity-30 shadow-xl transform translate-y-12 opacity-0 options">
+            <button class=" flex-col rounded-xl bg-success text-success bg-opacity-10 p-3 text-xl "
+                @click="showPopover('#income')">
+                <i class='bx bx-up-arrow-alt bx-sm !bg-transparent'></i>
+                <span class="text-sm">
+                    income
+                </span>
+            </button>
+            <button class=" flex-col rounded-xl bg-error text-error bg-opacity-10 p-3 text-xl "
+                @click="showPopover('#expense')">
+                <i class='bx bx-down-arrow-alt bx-sm !bg-transparent'></i>
+                <span class=" text-sm">
+                    expense
+                </span>
+            </button>
+
+
+        </div>
+        <div class=" transform -translate-y-8 ">
+            <button class="btn btn-primary  btn-lg shadow-lg shadow-primary btn-circle "
+                :class="{ '!rotate-45': optionsIsVisible === true }" @click="toggleOptions"><i
+                    class="bx bx-plus bx-md"></i></button>
+
+        </div>
     </div>
 
 
-    <div class="fixed  bottom-0 left-0 right-0 min-h-dvh bg-black z-50 bg-opacity-60   flex items-end justify-center"
-        v-if="popoverIsVisible" @click.self="hidePopover(currentPopover)">
-        <div class="w-full">
-            <div v-if="currentPopover === '#income'" class="rounded-t-3xl max-w-xl  h-full relative  w-full bg-base-100"
-                id="income" style="transform: translateY(1200px);">
-                <div class=" max-h-dvh p-6 overflow-y-scroll">
-                    <div
-                        class="flex items-center justify-between fixed w-full px-6 py-3 bg-base-100 top-0 left-0 right-0 rounded-t-3xl z-10 border-b border-primary !border-opacity-30">
-                        <h2 class="font-bold text-3xl font-head">Add Income</h2>
-                        <button @click="hidePopover(currentPopover)" class="btn btn-ghost btn-circle">
-                            <i class="bx bx-x bx-md"></i>
-                        </button>
-                    </div>
-                    <div class="mt-9">
+    <div class="fixed overlay opacity-0  !top-0 !left-0 !right-0 min-h-max h-screen bg-black  bg-opacity-60 grid place-items-end"
+        style="z-index: 1000 !important;" v-if="popoverIsVisible" @click.self="hidePopover(currentPopover)">
 
-                        <label class="form-control !m-0 w-full ">
-                            <div class="label">
-                                <span class="label-text">
-                                    <h3 class="font-bold text-xl mt-6 opacity-80 font-head">Amount</h3>
-                                </span>
+        <div v-if="currentPopover === '#income'"
+            class=" max-w-xl   w-full bg-base-100 rounded-t-3xl h-[90%] p-6 overflow-scroll " id="income"
+            style="transform: translateY(1200px);">
+            <div class=" ">
+                <div
+                    class="flex items-center justify-end !fixed w-full px-6 py-3 bg-base-100 top-0 left-0 right-0 rounded-t-3xl z-10 ">
 
-                            </div>
-                            <div class="flex gap-x-2"> <span
-                                    class="text-primary font-bold bg-primary bg-opacity-10 p-3 rounded-xl">XAF</span><input
-                                    v-model.number="amount" type="text" placeholder="2000"
-                                    class="input input-bordered w-full font-bold rounded-xl" /></div>
-
-                        </label>
-                    </div>
-                    <h3 class="font-bold text-xl mt-8 opacity-80 font-head">Category</h3>
-                    <p class="opacity-70 text-sm">Choose only one</p>
-                    <div class="mt-3 flex gap-2 flex-wrap">
-                        <div v-for="item, i in incomeCategories" :key="i" @click="() => {
-                chosenCategory = chosenCategory === item.name ? 'none' : item.name
-            }" :class="{ '!bg-opacity-100 !text-primary-content': chosenCategory === item.name }"
-                            class="p-1 px-3 rounded-lg cursor-pointer border border-primary border-opacity-60 bg-primary text-primary bg-opacity-10 font-bold flex items-center gap-x-0.5 text-sm">
-                            <i v-if="chosenCategory !== item.name" class="bx bx-plus"></i>
-                            <i v-if="chosenCategory === item.name" class="bx bx-check"></i>
-                            <span>{{ item.name }}</span>
-                        </div>
-                    </div>
-                    <h3 class="font-bold text-xl mt-6 opacity-80 font-head">Notes </h3>
-                    <div class="my-3">
-                        <textarea class="textarea rounded-2xl textarea-bordered w-full h-24" v-model="note"
-                            placeholder="notes"></textarea>
-                    </div>
-                    <div class=" my-3 p-2 rounded-xl text-error bg-error bg-opacity-10 flex gap-x-1 items-center text-base"
-                        v-if="errorMessages">
-                        <i class="bx bx-error-circle"></i> {{ errorMessages }}
-                    </div>
-                    <button class="btn btn-primary font-head w-full rounded-2xl mx-auto"
-                        @click="addTransacton('income')">Add
-                        Income</button>
+                    <button @click="hidePopover(currentPopover)" class="btn btn-ghost btn-circle">
+                        <i class="bx bx-x bx-md"></i>
+                    </button>
                 </div>
-            </div>
-            <div v-if="currentPopover === '#expense'"
-                class="rounded-t-3xl max-w-xl  h-full relative  w-full bg-base-100 " id="expense"
-                style="transform: translateY(1200px);">
-                <div class=" max-h-dvh p-6 overflow-y-scroll">
-                    <div
-                        class="flex items-center justify-between fixed w-full px-6 py-3 bg-base-100 top-0 left-0 right-0 rounded-t-3xl z-10 border-b border-primary !border-opacity-30">
-                        <h2 class="font-bold text-3xl font-head">Add Expense</h2>
-                        <button @click="hidePopover(currentPopover)" class="btn btn-ghost btn-circle">
-                            <i class="bx bx-x bx-md"></i>
-                        </button>
-                    </div>
-                    <div class="mt-9">
+                <div class="mt-2">
 
-                        <label class="form-control w-full ">
-                            <div class="label">
-                                <span class="label-text">
-                                    <h3 class="font-bold text-xl mt-6 opacity-80 font-head">Amount</h3>
-                                </span>
+                    <label class="form-control !m-0 w-full ">
+                        <div class="label">
+                            <span class="label-text">
+                                <h3 class="font-bold text-xl mt-6 opacity-80 font-head">Amount</h3>
+                            </span>
 
-                            </div>
-                            <div class="flex gap-x-2"> <span
-                                    class="text-primary font-bold bg-primary bg-opacity-10 p-3 rounded-xl">XAF</span><input
-                                    v-model="amount" type="text" placeholder="2000"
-                                    class="input input-bordered w-full font-bold rounded-xl" /></div>
-
-                        </label>
-                    </div>
-                    <h3 class="font-bold text-xl mt-8 opacity-80 font-head">Category</h3>
-                    <p class="opacity-70 text-sm">Choose only one</p>
-                    <div class="mt-3 flex gap-2 flex-wrap w-full">
-                        <div v-for="item, i in expenseCategories" :key="i"
-                            @click="chosenCategory = chosenCategory === item.name ? 'none' : item.name"
-                            :class="{ '!bg-opacity-100 !text-primary-content': chosenCategory === item.name }"
-                            class="p-1 px-3 rounded-lg cursor-pointer border border-primary border-opacity-60 bg-primary text-primary bg-opacity-10 font-bold flex items-center gap-x-0.5 text-sm">
-                            <i v-if="chosenCategory !== item.name" class="bx bx-plus"></i>
-                            <i v-if="chosenCategory === item.name" class="bx bx-check"></i>
-                            <span>{{ item.name }}</span>
                         </div>
-                    </div>
-                    <h3 class="font-bold text-xl mt-6 opacity-80 font-head">Notes</h3>
-                    <div class="my-3">
-                        <textarea v-model="note" class="textarea rounded-2xl textarea-bordered w-full h-24"
-                            placeholder="notes"></textarea>
-                    </div>
-                    <div class=" my-3 p-2 rounded-xl text-error bg-error bg-opacity-10 flex gap-x-1 items-center text-base"
-                        v-if="errorMessages">
-                        <i class="bx bx-error-circle"></i> {{ errorMessages }}
-                    </div>
-                    <button @click="addTransacton('expense')"
-                        class="btn btn-primary w-full rounded-2xl font-head mx-auto">Add
-                        Expense</button>
+                        <div class="flex gap-x-2"> <span
+                                class="text-primary font-bold bg-primary bg-opacity-10 p-3 rounded-xl">XAF</span><input
+                                v-model.number="amount" type="text" placeholder="2000"
+                                class="input input-bordered w-full font-bold rounded-xl" /></div>
+
+                    </label>
                 </div>
+                <h3 class="font-bold text-xl mt-8 opacity-80 font-head">Category</h3>
+                <p class="opacity-70 text-sm">Choose only one</p>
+                <div class="mt-3 flex gap-2 flex-wrap">
+                    <div v-for="item, i in incomeCategories" :key="i" @click="() => {
+            chosenCategory = chosenCategory === item.name ? 'none' : item.name
+        }" :class="{ '!bg-opacity-100 !text-primary-content': chosenCategory === item.name }"
+                        class="p-1 px-2 rounded-lg cursor-pointer border border-primary border-opacity-60 bg-primary text-primary bg-opacity-10 font-medium flex items-center gap-x-0.5 text-base">
+
+                        <i v-if="chosenCategory === item.name" class="bx bx-check bx-sm"></i>
+                        <span>{{ item.name }}</span>
+                    </div>
+                </div>
+                <h3 class="font-bold text-xl mt-6 opacity-80 font-head">Notes </h3>
+                <div class="my-3">
+                    <textarea class="textarea rounded-2xl textarea-bordered w-full h-24" v-model="note"
+                        placeholder="notes"></textarea>
+                </div>
+                <div class=" my-3 p-2 rounded-xl text-error bg-error bg-opacity-10 flex gap-x-1 items-center text-base"
+                    v-if="errorMessages">
+                    <i class="bx bx-error-circle"></i> {{ errorMessages }}
+                </div>
+                <button class="btn btn-primary font-head w-full rounded-2xl mx-auto"
+                    @click="addTransacton('income')">Add
+                    Income</button>
             </div>
+        </div>
+        <div v-if="currentPopover === '#expense'"
+            class="max-w-xl   w-full bg-base-100 rounded-t-3xl h-[90%] p-6 overflow-scroll " id="expense"
+            style="transform: translateY(1200px);">
+            <div>
+                <div
+                    class="flex items-center justify-end fixed w-full px-6 pt-3 bg-base-100 top-0 left-0 right-0 rounded-t-3xl z-10 ">
+
+                    <button @click="hidePopover(currentPopover)" class="btn btn-ghost btn-circle">
+                        <i class="bx bx-x bx-md"></i>
+                    </button>
+                </div>
+                <div class="mt-2">
+
+                    <label class="form-control w-full ">
+                        <div class="label">
+                            <span class="label-text">
+                                <h3 class="font-bold text-xl mt-6 opacity-80 font-head">Amount</h3>
+                            </span>
+
+                        </div>
+                        <div class="flex gap-x-2"> <span
+                                class="text-primary font-bold bg-primary bg-opacity-10 p-3 rounded-xl">XAF</span><input
+                                v-model="amount" type="text" placeholder="2000"
+                                class="input input-bordered w-full font-bold rounded-xl" /></div>
+
+                    </label>
+                </div>
+                <h3 class="font-bold text-xl mt-8 opacity-80 font-head">Category</h3>
+                <p class="opacity-70 text-sm">Choose only one</p>
+                <div class="mt-3 flex gap-2 flex-wrap w-full">
+                    <div v-for="item, i in expenseCategories" :key="i"
+                        @click="chosenCategory = chosenCategory === item.name ? 'none' : item.name"
+                        :class="{ '!bg-opacity-100 !text-primary-content': chosenCategory === item.name }"
+                        class="p-1 px-2 rounded-lg cursor-pointer border border-primary border-opacity-60 bg-primary text-primary bg-opacity-10 font-bold flex items-center gap-x-0.5 text-base">
+
+                        <i v-if="chosenCategory === item.name" class="bx bx-check bx-sm"></i>
+                        <span>{{ item.name }}</span>
+                    </div>
+                </div>
+                <h3 class="font-bold text-xl mt-6 opacity-80 font-head">Notes</h3>
+                <div class="my-3">
+                    <textarea v-model="note" class="textarea rounded-2xl textarea-bordered w-full h-24"
+                        placeholder="notes"></textarea>
+                </div>
+                <div class=" my-3 p-2 rounded-xl text-error bg-error bg-opacity-10 flex gap-x-1 items-center text-base"
+                    v-if="errorMessages">
+                    <i class="bx bx-error-circle"></i> {{ errorMessages }}
+                </div>
+                <button @click="addTransacton('expense')"
+                    class="btn btn-primary w-full rounded-2xl font-head mx-auto">Add
+                    Expense</button>
+            </div>
+
         </div>
     </div>
 </template>

@@ -1,12 +1,12 @@
 <script setup>
-import LogoComp from '@/components/LogoComp.vue'
+import LogoComp from '@/components/LogoComp.vue';
 </script>
 
 <script>
 </script>
 <template>
-    <div class="!fixed w-full z-10 top-0 left-0 right-0">
-        <div class="navbar bg-base-100 border-b border-primary border-opacity-20 p-3 justify-center">
+    <!-- <div class="!fixed w-full z-0 top-0  bg-base-100 left-0 right-0">
+        <div class="navbar  bg-base-100 border-b border-primary border-opacity-20 p-3 justify-center">
             <span></span>
             <div class="flex-2">
 
@@ -16,5 +16,5 @@ import LogoComp from '@/components/LogoComp.vue'
             </div>
 
         </div>
-    </div>
+    </div> -->
 </template>

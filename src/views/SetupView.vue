@@ -92,8 +92,8 @@ function showSetup() {
             </div>
             <img src="/wallet.svg" class="!m-0 object-cover" alt="" />
             <div class="mx-auto">
-                <h2 class="font-bold text-4xl text-center">Track your spending habits with ease.</h2>
-                <button @click="showSetup" class="btn mt-8 btn-primary uppercase w-full
+                <h2 class="font-bold text-4xl text-center font-head">Track your spending habits with ease.</h2>
+                <button @click="showSetup" class="btn mt-8 btn-primary uppercase w-full font-head
                     
                     ">Let's Go</button>
             </div>
@@ -111,14 +111,14 @@ function showSetup() {
     <div class="w-full bg-base-100 p-3 pt-24 setup opacity-0 grid place-items-center" v-if="currentTab === 'setup-1'"
         style="transform: scale(.98);">
         <div class="w-full">
-            <h2 class="font-bold text-3xl">Let's get you setup</h2>
+            <h2 class="font-bold font-head text-center text-3xl">Let's get going</h2>
             <div class="mt-6 w-full rounded-3xl bg-base-300 p-6">
-                <h2 class="font-medium text-lg opacity-70">What's your name?</h2>
+                <h2 class="font-medium font-head text-lg opacity-70">What's your name?</h2>
                 <label class="form-control !mt-3 w-full">
                     <input v-model.number="name" type="text"
                         class="input input-bordered w-full font-bold rounded-xl bg-base-200" />
                 </label>
-                <h2 class="font-medium text-lg opacity-70 mt-6">What's your monthly budget?</h2>
+                <h2 class="font-medium font-head text-lg opacity-70 mt-6">What's your monthly budget?</h2>
                 <label class="form-control !mt-3 w-full">
                     <div class="flex gap-x-2">
                         <span class="text-primary-content font-bold bg-primary p-3 rounded-xl">XAF</span><input
@@ -126,7 +126,7 @@ function showSetup() {
                             class="input input-bordered bg-base-200 w-full font-bold rounded-xl" />
                     </div>
                 </label>
-                <h2 class="font-medium text-lg opacity-70 mt-6">Beginning of the week?</h2>
+                <h2 class="font-medium text-lg opacity-70 mt-6 font-head">Beginning of the week?</h2>
                 <div class="mt-3 flex gap-2 flex-wrap w-full">
                     <div v-for="(item, i) in potentialStartOfTheWeek" :key="i" @click="() => {
         chosenDay = chosenDay === item.name ? 'none' : item.name
@@ -145,7 +145,7 @@ function showSetup() {
                     <i class="bx bx-error-circle"></i> {{ errorMessages }}
                 </div>
             </Transition>
-            <button @click="createUser" class="btn mt-4 btn-primary uppercase w-full">Get Started</button>
+            <button @click="createUser" class="btn mt-4 btn-primary uppercase w-full font-head">Get Started</button>
         </div>
     </div>
 </template>

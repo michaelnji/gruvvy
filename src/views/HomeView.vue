@@ -31,12 +31,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class=" pb-28 relative">
-
-    <navBar />
-    <div class="pt-24  px-4 h opacity-0" style="transform: scale(.98);">
+  <navBar />
+  <main class=" pb-28">
+    <div class="pt-6  px-3 h  opacity-0" style="transform: scale(.98);">
       <div v-if="profile.name" class="flex items-center gap-3">
-        <button class="btn btn-circle !uppercase  text-xl btn-primary">{{ profile.name.split('')[0] }}</button>
+        <button class="btn btn-circle !uppercase  text-2xl btn-primary">{{ profile.name.split('')[0] }}</button>
         <div>
           <h2 class="font-head m-0 !leading-none font-medium  text-2xl">
             {{ profile.name }}
