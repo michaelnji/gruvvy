@@ -16,15 +16,10 @@ import anime from 'animejs';
 const currentChart = ref("income");
 const transactionsState = useTransactions();
 
-
-
-
 const startIndex = ref(0)
 const endIndex = computed(() => {
   return startIndex.value + 6
 })
-
-
 
 const data = computed(() => {
 
@@ -85,7 +80,7 @@ onMounted(() => {
 <template>
   <NavBar />
   <!-- ! potential bug, which prevents stats from being rendered if week isn't complete. Investigation in progress -->
-  <main class="px-2 pt-24 pb-28 i opacity-0" style="transform: scale(0.98);" v-if="data.currentWeek.length >= 7">
+  <main class="px-4 pt-10 pb-28 i opacity-0" style="transform: scale(0.98);" v-if="data.currentWeek.length >= 7">
     <div class="flex justify-between items-center w-full gap-x-2">
       <button class="p-2 rounded-xl bg-primary flex items-center text-primary bg-opacity-10"
         @click="() => startIndex = data.currentWeek.length < 7 ? 0 : endIndex">
@@ -93,8 +88,8 @@ onMounted(() => {
       </button>
       <div class="p-2 flex items-center justify-center rounded-xl text-xl w-full bg-primary  bg-opacity-10 font-medium">
         {{ getReadableDateShort(new Date(data.currentWeek[data.currentWeek.length - 1])) }} - {{
-        getReadableDateShort(new
-        Date(data.currentWeek[0])) }}
+    getReadableDateShort(new
+      Date(data.currentWeek[0])) }}
       </div>
       <button class="p-2 rounded-xl bg-primary flex items-center text-primary bg-opacity-10"
         @click="() => startIndex = startIndex === 0 ? 0 : startIndex - 6">
@@ -144,9 +139,9 @@ onMounted(() => {
     <div class="mt-4 px-4">
       <div class="rounded-2xl bg-base-200 p-6">
         <h2 class=" m-0 opacity-70 !leading-none text-lg"> Average daily spending</h2>
-        <div class="mt-6 flex items-center gap-4">
+        <div class="mt-1 flex items-center gap-4">
           <h1 class="font-extrabold font-head text-5xl "><small class="text-2xl">XAF</small> {{
-    numToSummary(avgDailySpending) }}
+            numToSummary(avgDailySpending) }}
           </h1>
         </div>
       </div>

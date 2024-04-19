@@ -9,7 +9,6 @@ import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 const errorMessages = ref("");
 const router = useRouter();
-const currentTab = ref("welcome");
 const chosenDay = ref("none");
 let name;
 let budget;
@@ -55,7 +54,7 @@ function createUser() {
 }
 onMounted(() => {
     anime({
-        targets: '.welcome',
+        targets: '.setup',
         opacity: 1,
         scale: {
             value: 1,
@@ -65,68 +64,29 @@ onMounted(() => {
         easing: 'easeOutElastic(2,2)',
     })
 });
-function showSetup() {
-    currentTab.value = 'setup-1'
-    setTimeout(() => {
-        anime({
-            targets: '.setup',
-            opacity: 1,
-            scale: {
-                value: 1,
 
-            },
-            duration: 500,
-            easing: 'easeOutElastic(2,2)',
-        })
-    }, 10);
-}
 </script>
 <template>
-    <div class="w-full bg-base-100 welcome opacity-0 p-6 grid place-items-center" v-if="currentTab === 'welcome'"
-        style="transform: scale(.98);">
-        <div class="w-full">
-            <div class="w-full flex justify-center">
-                <p class="btn btn-ghost text-primary text-2xl font-bold font-head">
-                    <LogoComp /> Paytrack
-                </p>
-            </div>
-            <img src="/wallet.svg" class="!m-0 object-cover" alt="" />
-            <div class="mx-auto">
-                <h2 class="font-bold text-4xl text-center font-head">Track your spending habits with ease.</h2>
-                <button @click="showSetup" class="btn mt-8 btn-primary uppercase w-full font-head
-                    
-                    ">Let's Go</button>
-            </div>
-        </div>
-        <div
-            class="rounded-3xl text-pretty text-opacity-80 bg-base-300 rotate-6 mt-16 p-6 mx-auto flex items-start gap-x-3">
-            <i class="bx bxs-quote-alt-left bx-md"></i>
-            <span class="opacity-70">
-                <b> PayTrack</b> allows you to build good spending habits by showing you what you spend your
-                money the most on and helps you stay on a budget.
-            </span>
-        </div>
-    </div>
-    <NavBar v-if="currentTab === 'setup-1'" />
-    <div class="w-full bg-base-100 p-3 pt-24 setup opacity-0 grid place-items-center" v-if="currentTab === 'setup-1'"
-        style="transform: scale(.98);">
+
+    <NavBar />
+    <div class="w-full bg-base-100 p-4 pt-24 setup opacity-0 grid place-items-center" style="transform: scale(.98);">
         <div class="w-full">
             <h2 class="font-bold font-head text-center text-3xl">Let's get going</h2>
-            <div class="mt-6 w-full rounded-3xl bg-base-300 p-6">
+            <div class="mt-6 w-full rounded-3xl bg-base-200 p-6">
                 <h2 class="font-medium font-head text-lg opacity-70">What's your name?</h2>
                 <label class="form-control !mt-3 w-full">
                     <input v-model.number="name" type="text"
-                        class="input input-bordered w-full font-bold rounded-xl bg-base-200" />
+                        class="input input-bordered w-full font-bold rounded-xl bg-base-100" />
                 </label>
                 <h2 class="font-medium font-head text-lg opacity-70 mt-6">What's your monthly budget?</h2>
                 <label class="form-control !mt-3 w-full">
                     <div class="flex gap-x-2">
                         <span class="text-primary-content font-bold bg-primary p-3 rounded-xl">XAF</span><input
                             v-model.number="budget" type="text" placeholder="2000"
-                            class="input input-bordered bg-base-200 w-full font-bold rounded-xl" />
+                            class="input input-bordered text-2xl bg-base-100 w-full font-bold rounded-xl" />
                     </div>
                 </label>
-                <h2 class="font-medium text-lg opacity-70 mt-6 font-head">Beginning of the week?</h2>
+                <h2 class="font-medium text-lg opacity-70 mt-6 font-head">When does your week start?</h2>
                 <div class="mt-3 flex gap-2 flex-wrap w-full">
                     <div v-for="(item, i) in potentialStartOfTheWeek" :key="i" @click="() => {
         chosenDay = chosenDay === item.name ? 'none' : item.name

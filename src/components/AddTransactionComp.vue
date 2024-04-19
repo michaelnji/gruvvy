@@ -173,11 +173,11 @@ function toggleOptions() {
     </div>
 
 
-    <div class="fixed overlay opacity-0  !top-0 !left-0 !right-0 min-h-max h-screen bg-black  bg-opacity-60 grid place-items-end"
+    <div class="fixed overlay opacity-0 !p-0  !top-0 !left-0 !right-0 min-h-max h-screen bg-black  bg-opacity-60 grid place-items-end"
         style="z-index: 1000 !important;" v-if="popoverIsVisible" @click.self="hidePopover(currentPopover)">
 
         <div v-if="currentPopover === '#income'"
-            class=" max-w-xl   w-full bg-base-100 rounded-t-3xl h-[90%] p-6 overflow-scroll " id="income"
+            class="    !w-screen bg-base-100 rounded-t-3xl h-max max-h-[90%] p-6 overflow-scroll " id="income"
             style="transform: translateY(1200px);">
             <div class=" ">
                 <div
@@ -230,7 +230,7 @@ function toggleOptions() {
             </div>
         </div>
         <div v-if="currentPopover === '#expense'"
-            class="max-w-xl   w-full bg-base-100 rounded-t-3xl h-[90%] p-6 overflow-scroll " id="expense"
+            class="   w-full bg-base-100 rounded-t-3xl h-max max-h-[90%] p-6 overflow-scroll " id="expense"
             style="transform: translateY(1200px);">
             <div>
                 <div
