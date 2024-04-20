@@ -98,11 +98,11 @@ onMounted(() => {
     </div>
     <div class="mt-8 px-4">
       <div class="flex w-full items-center justify-between">
-        <h2 class="font-head m-0 !leading-none font-medium text-2xl">Transactions</h2>
+        <h2 class=" m-0 !leading-none font-bold text-xl">Transactions</h2>
         <div class="dropdown dropdown-bottom menu-dropdown-toggle dropdown-end">
           <div tabindex="0" role="button" class="btn bg-primary btn-sm text-primary bg-opacity-10  m-1">{{ currentChart
             }} <i class="bx bx-caret-down"></i></div>
-          <ul tabindex="1" class="dropdown-content  z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+          <ul tabindex="1" class="dropdown-content  z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 !capitalize">
             <li><a @click="currentChart = 'income'">Income</a></li>
             <li><a @click="currentChart = 'expense'">Expenses</a></li>
           </ul>
@@ -123,15 +123,15 @@ onMounted(() => {
     </div>
     <div class="mt-4 px-4">
       <div class="rounded-2xl bg-base-200 p-6">
-        <h2 class=" m-0 opacity-70 !leading-none font-medium text-lg">Your top 4 categories</h2>
-        <div class="grid grid-cols-2 mt-6  flex-wrap gap-2">
+        <h2 class=" m-0 opacity-70 !leading-none font-medium text-lg">Your top categories</h2>
+        <div class="grid grid-cols-3 mt-6  flex-wrap gap-2">
           <div v-for="item, i in mostUsedCategories" :key="i"
-            class="p-6 bg-base-100 w-full rounded-2xl flex items-center justify-center  flex-col">
+            class="p-3 bg-base-100 w-full rounded-xl flex items-center justify-center  flex-col">
             <span>
-              <i :class='`${iconList[item.name.icon].icon} ! text-primary  bx-lg`'></i>
+              <i :class='`${iconList[item.name.icon].icon} ! text-primary  bx-md`'></i>
             </span>
-            <span class="!opacity-70 my-2 capitalize">{{ item.name.name }}</span>
-            <span class="text-4xl font-bold font-head">{{ item.timesAppeared }}</span>
+            <span class="!opacity-70 my-1 text-sm capitalize">{{ item.name.name }}</span>
+            <span class="text-2xl font-bold font-head">{{ item.timesAppeared }}</span>
           </div>
         </div>
       </div>

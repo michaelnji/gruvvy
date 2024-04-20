@@ -67,9 +67,9 @@ onMounted(() => {
         <div class="w-full mt-4">
           <BudgetSummaryComp :total="profile.budget" :current="profile.budget_usage" />
         </div>
-        <div class="w-full h-0.5  my-8 bg-base-300"></div>
+        <div class="w-full h-0.5  my-8 bg-base-content bg-opacity-10"></div>
         <!-- transactions -->
-        <h2 class="font-head !m-0 text-3xl font-medium ">
+        <h2 class=" !m-0 text-xl font-bold ">
           Recent Transactions
         </h2>
         <div class="mt-4">

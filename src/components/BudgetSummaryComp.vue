@@ -16,7 +16,7 @@ defineProps({
 <template>
     <div class="mt-4 rounded-2xl w-full p-3 bg-base-200">
         <div class="flex items-center justify-between gap-2">
-            <h2 class="font-head text-xl opacity-80"> Budget used</h2> <span class="mt-1  text-lg opacity-70">
+            <h2 class=" text-lg opacity-80"> Budget used</h2> <span class="mt-1  text-md opacity-70">
                 <b>{{ numToSummary(current) }}</b> / {{ numToSummary(total) }}
             </span>
         </div>

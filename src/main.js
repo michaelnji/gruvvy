@@ -13,10 +13,10 @@ import { useRegisterSW } from 'virtual:pwa-register/vue'
 const intervalMS = 60 * 60 * 1000
 
 const updateServiceWorker = useRegisterSW({
-  onRegistered(r) {
-    r &&
+  onRegistered(serviceWorker) {
+    serviceWorker &&
       setInterval(() => {
-        r.update()
+        serviceWorker.update()
       }, intervalMS)
   }
 })

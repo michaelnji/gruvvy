@@ -43,7 +43,7 @@ function hidePopover() {
 <template>
     <div class=" bg-base-200 rounded-2xl p-3  flex items-center justify-between gap-3" @click="showPopover">
         <div>
-            <h2 class=" text-2xl flex gap-x-2 items-center  font-head font-medium">
+            <h2 class=" text-xl flex gap-x-2 items-center font-extrabold">
                 <span> <small class="text-sm">XAF </small> {{ numToSummary(transaction.amount) }}</span>
                 <span class="badge !rounded-xl badge-success badge-outline badge-sm"
                     v-if="transaction.type === 'income'">inc</span>
@@ -52,7 +52,8 @@ function hidePopover() {
             </h2>
             <!-- <p class=" opacity-70  ">{{ getReadableDate(transaction.date) }}</p> -->
         </div>
-        <div class="rounded-xl bg-base-100  p-1.5 px-2 flex !items-center capitalize text-md gap-1 !text-opacity-70">
+        <div
+            class="rounded-xl bg-base-300  p-1.5 px-2 flex !items-center capitalize text-md gap-1 !text-opacity-70 font-head">
             <i :class='`${iconList[transaction.category.icon].icon} !opacity-70  !bx-sm`'></i>
             {{ transaction.category.name }}
         </div>
@@ -91,7 +92,7 @@ function hidePopover() {
 
                         <span> {{
             getReadableDate(new Date(transaction.date))
-        }}</span></span>
+                            }}</span></span>
                 </div>
                 <div class="mt-8 text-pretty" v-if="transaction.note">
                     <h2 class="font-black text-3xl mb-2">Note</h2>
