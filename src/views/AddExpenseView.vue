@@ -11,7 +11,7 @@ import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 let amount
 const date = new Date();
-let note = ''
+const note = ''
 const errorMessages = ref("");
 const categoriesState = useCategories();
 const { categories } = storeToRefs(categoriesState)

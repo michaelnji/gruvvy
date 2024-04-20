@@ -40,7 +40,7 @@ const defaultOptions = {
 	theme: {
 		monochrome: {
 			enabled: true,
-			color: colors.primary.name,
+			color: colors[props.color].name,
 			shadeTo: "light",
 			shadeIntensity: 0.65,
 		},
@@ -93,7 +93,7 @@ watch(props, () => {
 </script>
 
 <template>
-	<div :class="`p-3 rounded-2xl ${bgColor} chart-container-${id}`">
+	<div :class="`p-3 rounded-2xl  chart-container-${id}`">
 		<div :id="`chart-${id}`"></div>
 	</div>
 </template>

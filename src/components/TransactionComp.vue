@@ -45,15 +45,15 @@ function hidePopover() {
         <div>
             <h2 class=" text-xl flex gap-x-2 items-center font-extrabold">
                 <span> <small class="text-sm">XAF </small> {{ numToSummary(transaction.amount) }}</span>
-                <span class="badge !rounded-xl badge-success badge-outline badge-sm"
+                <span class="badge !rounded-xl badge-success bg-success-content text-success badge-sm"
                     v-if="transaction.type === 'income'">inc</span>
-                <span class="badge !rounded-lg badge-error badge-outline badge-sm"
+                <span class="badge !rounded-lg badge-error bg-error-content text-error  badge-sm"
                     v-if="transaction.type === 'expense'">exp</span>
             </h2>
             <!-- <p class=" opacity-70  ">{{ getReadableDate(transaction.date) }}</p> -->
         </div>
         <div
-            class="rounded-xl bg-base-300  p-1.5 px-2 flex !items-center capitalize text-md gap-1 !text-opacity-70 font-head">
+            class="rounded-xl bg-base-100  p-1.5 px-2 flex !items-center capitalize text-md gap-1 !text-opacity-70 font-head">
             <i :class='`${iconList[transaction.category.icon].icon} !opacity-70  !bx-sm`'></i>
             {{ transaction.category.name }}
         </div>

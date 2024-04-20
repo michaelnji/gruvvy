@@ -8,7 +8,7 @@ const props = defineProps({
 
 </script>
 <template>
-    <div class="bg-error bg-opacity-10  p-3  rounded-2xl w-full  md:max-w-xl  ">
+    <div class="bg-error-content border border-error border-opacity-20   p-3  rounded-2xl w-full  md:max-w-xl  ">
         <div>
             <h2 class="font-semibold m-0 !leading-none font-head text-2xl text-error  md:text-4xl">
                 <small class="text-base">XAF</small> {{ numToSummary(props.expense) }}

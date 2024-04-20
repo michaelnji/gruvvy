@@ -10,7 +10,8 @@ const props = defineProps({
 
 </script>
 <template>
-    <div class=" p-6 bg-base-200  rounded-3xl w-full  md:max-w-xl  flex gap-x-2 items-center justify-between">
+    <div
+        class=" p-6 border border-base-300 bg-base-200  rounded-3xl w-full  md:max-w-xl  flex gap-x-2 items-center justify-between">
         <div>
             <h2 class=" font-black m-0 !leading-none font-head text-5xl md:text-6xl">
                 <small class="text-lg">XAF</small> {{ numToSummary(props.balance) }}

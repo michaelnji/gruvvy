@@ -43,15 +43,20 @@ onMounted(() => {
     <navBar />
     <main class=" pb-28">
       <div class="pt-10  px-4 h  opacity-0" style="transform: scale(.98);">
-        <div v-if="profile.name" class="flex items-center gap-3">
-          <button class="btn btn-circle !uppercase  text-2xl btn-primary">{{ profile.name.split('')[0] }}</button>
-          <div>
-            <h2 class="font-head m-0 !leading-none font-medium  text-2xl">
-              {{ profile.name }}
-            </h2>
-            <p class="opacity-50"> ID: {{ profile.id }}</p>
-          </div>
+        <div class="flex items-center justify-between">
+          <div v-if="profile.name" class="flex items-center gap-3">
+            <button class="btn btn-circle !uppercase  text-2xl btn-primary">{{ profile.name.split('')[0] }}</button>
+            <div>
+              <h2 class="font-head m-0 !leading-none font-medium  text-2xl">
+                {{ profile.name }}
+              </h2>
+              <p class="opacity-50"> ID: {{ profile.id }}</p>
+            </div>
 
+          </div>
+          <a href="/settings" class="btn btn-ghost btn-circle">
+            <i class="bx bx-cog bx-sm"></i>
+          </a>
         </div>
         <div class="mt-6 w-full">
           <BalanceComp :balance='profile.balance' />

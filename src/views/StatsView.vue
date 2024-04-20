@@ -1,6 +1,7 @@
 <script setup>
 import BottomNavBar from '@/components/BottomNav.vue';
 import ChartComp from '@/components/ChartComp.vue';
+import StatsIllustration from '@/components/illustrations/statsIllustration.vue'
 import NavBar from '@/components/NavBar.vue';
 import { iconList } from '@/lib/data/icons';
 import {
@@ -88,8 +89,8 @@ onMounted(() => {
       </button>
       <div class="p-2 flex items-center justify-center rounded-xl text-xl w-full bg-primary  bg-opacity-10 font-medium">
         {{ getReadableDateShort(new Date(data.currentWeek[data.currentWeek.length - 1])) }} - {{
-    getReadableDateShort(new
-      Date(data.currentWeek[0])) }}
+        getReadableDateShort(new
+        Date(data.currentWeek[0])) }}
       </div>
       <button class="p-2 rounded-xl bg-primary flex items-center text-primary bg-opacity-10"
         @click="() => startIndex = startIndex === 0 ? 0 : startIndex - 6">
@@ -109,9 +110,9 @@ onMounted(() => {
         </div>
       </div>
       <div class="mt-3">
-        <ChartComp v-if="currentChart === 'income'" type="bar" :series="incomeSeries" color="green"
+        <ChartComp v-if="currentChart === 'income'" type="line" :series="incomeSeries" color="green"
           :categories="data.currentWeekDays" :id="'income'" />
-        <ChartComp v-if="currentChart === 'expense'" type="bar" :series="expenseSeries" color="red"
+        <ChartComp v-if="currentChart === 'expense'" type="line" :series="expenseSeries" color="red"
           :categories="data.currentWeekDays" :id="'expense'" />
       </div>
     </div>
@@ -141,14 +142,15 @@ onMounted(() => {
         <h2 class=" m-0 opacity-70 !leading-none text-lg"> Average daily spending</h2>
         <div class="mt-1 flex items-center gap-4">
           <h1 class="font-extrabold font-head text-5xl "><small class="text-2xl">XAF</small> {{
-            numToSummary(avgDailySpending) }}
+    numToSummary(avgDailySpending) }}
           </h1>
         </div>
       </div>
     </div>
   </main>
-  <main class="px-2 pt-24 pb-28 i opacity-0" style="transform: scale(0.98);" v-if="data.currentWeek.length < 7">
-    <img src="/stats.svg" alt="">
+  <main class="px-2 pt-24 pb-28 i min-h-screen opacity-0" style="transform: scale(0.98);"
+    v-if="data.currentWeek.length < 7">
+    <StatsIllustration />
 
     <h2 class="font-head text-3xl font-medium text-center">
       Not enough data yet

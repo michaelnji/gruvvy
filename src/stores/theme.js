@@ -5,7 +5,7 @@ import { ref } from 'vue'
 export const useTheme = defineStore('theme', () => {
 
     /** @type {{value:string}} */
-    let theme = ref(getOrSetItem('pt-theme', 'light'))
+    const theme = ref(getOrSetItem('pt-theme', 'desert'))
 
     function setTheme(val) {
         setItemValue('pt-theme', val)

@@ -15,7 +15,7 @@ profileState.updateProfile(userProfile);
 
 <template>
 
-  <div :data-theme='theme' :class="`${theme}  !bg-base-100 dark:bg-base-300 text-base-content `">
+  <div :data-theme='theme' :class="`${theme} transition-colors duration-300  !bg-base-100  text-base-content `">
     <div class=" md:hidden">
       <RouterView />
 

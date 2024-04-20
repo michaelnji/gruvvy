@@ -73,7 +73,8 @@ function showPopover(selector) {
         anime({
             targets: '.overlay',
             opacity: 1,
-            duration: 2000
+            duration: 200,
+            easing: 'linear'
 
         });
         anime({
@@ -147,14 +148,14 @@ function toggleOptions() {
     <div class="relative">
         <div v-if="optionsIsVisible" ref="target"
             class="flex p-6 absolute z-20 gap-x-6 rounded-3xl bg-base-100 border border-primary border-opacity-30 shadow-xl transform translate-y-12 opacity-0 options">
-            <button class=" flex-col rounded-xl bg-success text-success bg-opacity-10 p-3 text-xl "
+            <button class=" flex-col rounded-xl bg-success-content text-success  p-3 text-xl "
                 @click="showPopover('#income')">
                 <i class='bx bx-up-arrow-alt bx-sm !bg-transparent'></i>
                 <span class="text-sm">
                     income
                 </span>
             </button>
-            <button class=" flex-col rounded-xl bg-error text-error bg-opacity-10 p-3 text-xl "
+            <button class=" flex-col rounded-xl bg-error-content text-error  p-3 text-xl "
                 @click="showPopover('#expense')">
                 <i class='bx bx-down-arrow-alt bx-sm !bg-transparent'></i>
                 <span class=" text-sm">
