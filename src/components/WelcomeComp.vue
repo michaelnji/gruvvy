@@ -5,7 +5,7 @@ import { useProfile } from "@/stores/profile";
 import anime from 'animejs';
 import { storeToRefs } from "pinia";
 import { onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, RouterLink } from "vue-router";
 
 const router = useRouter();
 const profileState = useProfile();
@@ -42,9 +42,9 @@ onMounted(() => {
             <WalletIllustration />
             <div class="mx-auto">
                 <h2 class="font-bold text-4xl text-center font-head">Track your spending habits with ease.</h2>
-                <a href="/setup" class="btn mt-8 btn-primary uppercase w-full font-head
+                <RouterLink to="/setup" class="btn mt-8 btn-primary uppercase w-full font-head
                     
-                    ">Let's Go</a>
+                    ">Let's Go</RouterLink>
             </div>
         </div>
         <div

@@ -6,8 +6,6 @@ import anime from 'animejs';
 import { number } from "mathjs";
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
-import { onClickOutside } from '@vueuse/core'
-
 let amount
 const date = new Date();
 let note = ''
@@ -148,16 +146,16 @@ function toggleOptions() {
     <div class="relative">
         <div v-if="optionsIsVisible" ref="target"
             class="flex p-6 absolute z-20 gap-x-6 rounded-3xl bg-base-100 border border-primary border-opacity-30 shadow-xl transform translate-y-12 opacity-0 options">
-            <button class=" flex-col rounded-xl bg-success-content text-success  p-3 text-xl "
+            <button class=" flex-col rounded-xl border border-success bg-success-content text-success  p-3 text-xl "
                 @click="showPopover('#income')">
-                <i class='bx bx-up-arrow-alt bx-sm !bg-transparent'></i>
+                <i class='bx bx-upload bx-sm !bg-transparent'></i>
                 <span class="text-sm">
                     income
                 </span>
             </button>
-            <button class=" flex-col rounded-xl bg-error-content text-error  p-3 text-xl "
+            <button class=" flex-col rounded-xl border border-error bg-error-content text-error  p-3 text-xl "
                 @click="showPopover('#expense')">
-                <i class='bx bx-down-arrow-alt bx-sm !bg-transparent'></i>
+                <i class='bx bx-download bx-sm !bg-transparent'></i>
                 <span class=" text-sm">
                     expense
                 </span>
@@ -180,7 +178,7 @@ function toggleOptions() {
         <div v-if="currentPopover === '#income'"
             class="    !w-screen bg-base-100 rounded-t-3xl h-max max-h-[90%] p-6 overflow-scroll " id="income"
             style="transform: translateY(1200px);">
-            <div class=" ">
+            <div>
                 <div
                     class="flex items-center justify-end !fixed w-full px-6 py-3 bg-base-100 top-0 left-0 right-0 rounded-t-3xl z-10 ">
 
@@ -206,25 +204,30 @@ function toggleOptions() {
                 </div>
                 <h3 class="font-bold text-xl mt-8 opacity-80 font-head">Category</h3>
                 <p class="opacity-70 text-sm">Choose only one</p>
-                <div class="mt-3 flex gap-2 flex-wrap">
+                <div class="mt-3  gap-2 flex flex-wrap ">
+
                     <div v-for="item, i in incomeCategories" :key="i" @click="() => {
             chosenCategory = chosenCategory === item.name ? 'none' : item.name
         }" :class="{ '!bg-opacity-100 !text-primary-content': chosenCategory === item.name }"
-                        class="p-1 px-2 rounded-lg cursor-pointer border border-primary border-opacity-60 bg-primary text-primary bg-opacity-10 font-medium flex items-center gap-x-0.5 text-base">
+                        class="p-1 px-2 rounded-lg cursor-pointer border border-primary border-opacity-60 bg-primary text-primary bg-opacity-10 font-medium flex items-center justify-center gap-x-0.5 text-sm transition-all duration-150 capitalize font-head">
 
-                        <i v-if="chosenCategory === item.name" class="bx bx-check bx-sm"></i>
+
+
                         <span>{{ item.name }}</span>
                     </div>
+
                 </div>
                 <h3 class="font-bold text-xl mt-6 opacity-80 font-head">Notes </h3>
                 <div class="my-3">
                     <textarea class="textarea rounded-2xl textarea-bordered w-full h-24" v-model="note"
                         placeholder="notes"></textarea>
                 </div>
-                <div class=" my-3 p-2 rounded-xl text-error bg-error bg-opacity-10 flex gap-x-1 items-center text-base"
-                    v-if="errorMessages">
-                    <i class="bx bx-error-circle"></i> {{ errorMessages }}
-                </div>
+                <transition-expand>
+                    <div class=" my-3 p-2 rounded-xl text-error bg-error-content  flex gap-x-2 font-bold items-center text-base"
+                        v-if="errorMessages">
+                        <i class="bx bx-error-circle bx-sm"></i> {{ errorMessages }}
+                    </div>
+                </transition-expand>
                 <button class="btn btn-primary font-head w-full rounded-2xl mx-auto"
                     @click="addTransacton('income')">Add
                     Income</button>
@@ -259,14 +262,17 @@ function toggleOptions() {
                 </div>
                 <h3 class="font-bold text-xl mt-8 opacity-80 font-head">Category</h3>
                 <p class="opacity-70 text-sm">Choose only one</p>
-                <div class="mt-3 flex gap-2 flex-wrap w-full">
-                    <div v-for="item, i in expenseCategories" :key="i"
-                        @click="chosenCategory = chosenCategory === item.name ? 'none' : item.name"
-                        :class="{ '!bg-opacity-100 !text-primary-content': chosenCategory === item.name }"
-                        class="p-1 px-2 rounded-lg cursor-pointer border border-primary border-opacity-60 bg-primary text-primary bg-opacity-10 font-bold flex items-center gap-x-0.5 text-base">
+                <div class="mt-3  gap-2 flex flex-wrap w-full">
+                    <div v-for="item, i in expenseCategories" :key="i">
+                        <div @click="chosenCategory = chosenCategory === item.name ? 'none' : item.name"
+                            :class="{ '!bg-opacity-100 !text-primary-content': chosenCategory === item.name }"
+                            class="p-1 px-2 rounded-lg cursor-pointer border border-primary border-opacity-60 bg-primary text-primary bg-opacity-10 font-medium font-head flex items-center gap-x-2 capitalize transition-all duration-150">
 
-                        <i v-if="chosenCategory === item.name" class="bx bx-check bx-sm"></i>
-                        <span>{{ item.name }}</span>
+
+                            <span class='text-sm'>{{ item.name }}</span>
+
+
+                        </div>
                     </div>
                 </div>
                 <h3 class="font-bold text-xl mt-6 opacity-80 font-head">Notes</h3>
@@ -274,10 +280,12 @@ function toggleOptions() {
                     <textarea v-model="note" class="textarea rounded-2xl textarea-bordered w-full h-24"
                         placeholder="notes"></textarea>
                 </div>
-                <div class=" my-3 p-2 rounded-xl text-error bg-error bg-opacity-10 flex gap-x-1 items-center text-base"
-                    v-if="errorMessages">
-                    <i class="bx bx-error-circle"></i> {{ errorMessages }}
-                </div>
+                <transition-expand>
+                    <div class=" my-3 p-2 rounded-xl text-error bg-error-content  flex gap-x-2 font-bold items-center text-base"
+                        v-if="errorMessages">
+                        <i class="bx bx-error-circle bx-sm"></i> {{ errorMessages }}
+                    </div>
+                </transition-expand>
                 <button @click="addTransacton('expense')"
                     class="btn btn-primary w-full rounded-2xl font-head mx-auto">Add
                     Expense</button>

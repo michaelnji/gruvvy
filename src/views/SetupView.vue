@@ -104,12 +104,12 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
-            <Transition>
+            <transition-expand>
                 <div class=" my-3 p-2 rounded-xl text-error bg-error-content  flex gap-x-2  text-base font-semibold"
                     v-if="errorMessages">
                     <i class="bx bx-error-circle bx-sm"></i> {{ errorMessages }}
                 </div>
-            </Transition>
+            </transition-expand>
             <button @click="createUser" class="btn mt-4 btn-primary uppercase w-full font-head">Get Started</button>
         </div>
     </div>

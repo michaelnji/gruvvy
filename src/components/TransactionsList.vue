@@ -1,6 +1,6 @@
 <script setup>
 import Transaction from '@/components/TransactionComp.vue';
-import SearchIllustration from '@/components/illustrations/searchIllustration.vue'
+import SearchIllustration from '@/components/illustrations/searchIllustration.vue';
 defineProps({
     transactions: { required: true }
 });
