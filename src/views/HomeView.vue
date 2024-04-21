@@ -13,7 +13,7 @@ import anime from 'animejs';
 import { storeToRefs } from "pinia";
 import { ref, onMounted } from 'vue'
 import { useProfile } from "@/stores/profile";
-
+import { RouterLink } from 'vue-router';
 const userProfile = getItemValue("pt-profile");
 const isNewUser = ref(false)
 if (!userProfile) {
@@ -54,9 +54,9 @@ onMounted(() => {
             </div>
 
           </div>
-          <a href="/settings" class="btn btn-ghost btn-circle">
+          <RouterLink to="/settings" class="btn btn-ghost btn-circle">
             <i class="bx bx-cog bx-sm"></i>
-          </a>
+          </RouterLink>
         </div>
         <div class="mt-6 w-full">
           <BalanceComp :balance='profile.balance' />

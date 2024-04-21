@@ -2,6 +2,8 @@
 import { ref } from 'vue'
 import { useTheme } from "@/stores/theme";
 import { storeToRefs } from "pinia";
+import { RouterLink } from 'vue-router';
+
 const title = ref('Settings');
 const themeState = useTheme();
 const { theme } = storeToRefs(themeState);
@@ -9,9 +11,9 @@ const { theme } = storeToRefs(themeState);
 <template>
     <main class="min-h-screen">
         <nav class="p-3 bg-base-200 flex items-center gap-x-3">
-            <a href="/" class="btn btn-ghost btn-circle">
+            <RouterLink to="/" class="btn btn-ghost btn-circle">
                 <i class="bx bx-chevron-left bx-md"></i>
-            </a>
+            </RouterLink>
             <h2 class="font-bold text-2xl text-center w-full">{{ title }}</h2>
         </nav>
         <div class="mt-6 ">
