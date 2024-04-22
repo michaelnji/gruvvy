@@ -8,6 +8,9 @@ import anime from 'animejs';
 import { storeToRefs } from "pinia";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
+import { useWindowScroll } from '@vueuse/core'
+
+const { y } = useWindowScroll()
 const errorMessages = ref("");
 const router = useRouter();
 const chosenDay = ref("none");
@@ -54,6 +57,7 @@ function createUser() {
     router.push("/");
 }
 onMounted(() => {
+    y.value = 0
     anime({
         targets: '.setup',
         opacity: 1,
@@ -86,7 +90,8 @@ onMounted(() => {
                 <h2 class="font-medium  text-lg opacity-70 mt-6">What's your monthly budget?</h2>
                 <label class="form-control !mt-3 w-full">
                     <div class="flex gap-x-2">
-                        <span class="text-primary-content font-bold bg-primary p-3 rounded-xl">XAF</span><input
+                        <span
+                            class="text-primary-content font-bold bg-primary p-3 rounded-xl uppercase">XAF</span><input
                             v-model.number="budget" type="text" placeholder="2000"
                             class="input input-bordered text-2xl bg-base-100 w-full font-bold rounded-xl font-head" />
                     </div>

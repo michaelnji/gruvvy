@@ -13,7 +13,11 @@ import { getDate } from 'date-fns';
 import { computed, onMounted, ref } from 'vue';
 import { numToSummary } from '@/lib/scripts/numberFunctions';
 import anime from 'animejs';
+import { useSettings } from '@/stores/settings';
+import { useWindowScroll } from '@vueuse/core'
 
+const { y } = useWindowScroll()
+const settingsState = useSettings();
 const currentChart = ref("income");
 const transactionsState = useTransactions();
 
@@ -67,6 +71,7 @@ const avgDailySpending = computed(() => {
 });
 
 onMounted(() => {
+  y.value = 0
   anime({
     targets: '.i',
     opacity: 1,
@@ -89,8 +94,8 @@ onMounted(() => {
       </button>
       <div class="p-2 flex items-center justify-center rounded-xl text-xl w-full bg-primary  bg-opacity-10 font-medium">
         {{ getReadableDateShort(new Date(data.currentWeek[data.currentWeek.length - 1])) }} - {{
-        getReadableDateShort(new
-        Date(data.currentWeek[0])) }}
+    getReadableDateShort(new
+      Date(data.currentWeek[0])) }}
       </div>
       <button class="p-2 rounded-xl bg-primary flex items-center text-primary bg-opacity-10"
         @click="() => startIndex = startIndex === 0 ? 0 : startIndex - 6">
@@ -141,7 +146,8 @@ onMounted(() => {
       <div class="rounded-2xl bg-base-200 p-6">
         <h2 class=" m-0 opacity-70 !leading-none text-lg"> Average daily spending</h2>
         <div class="mt-1 flex items-center gap-4">
-          <h1 class="font-extrabold font-head text-5xl "><small class="text-2xl">XAF</small> {{
+          <h1 class="font-extrabold font-head text-5xl "><small class="text-2xl uppercase">{{
+    settingsState.settings.currency }}</small> {{
     numToSummary(avgDailySpending) }}
           </h1>
         </div>

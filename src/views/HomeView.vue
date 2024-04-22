@@ -14,6 +14,9 @@ import { storeToRefs } from "pinia";
 import { ref, onMounted } from 'vue'
 import { useProfile } from "@/stores/profile";
 import { RouterLink } from 'vue-router';
+import { useWindowScroll } from '@vueuse/core'
+
+const { y } = useWindowScroll()
 const userProfile = getItemValue("pt-profile");
 const isNewUser = ref(false)
 if (!userProfile) {
@@ -24,6 +27,7 @@ const { profile } = storeToRefs(profileState);
 const transactionsState = useTransactions();
 // const transactions = transactionsState.filteredTransactions();
 onMounted(() => {
+  y.value = 0
   anime({
     targets: '.h',
     opacity: 1,

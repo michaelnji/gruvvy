@@ -48,7 +48,7 @@ export default {
           error: '#c91340',
           'error-content': '#ffe4e6',
           neutral: '#3d4451',
-          'base-300': '#e9a7ff',
+          'base-300': '#eebefa',
           'base-200': '#f8e7ff',
           'base-100': '#fcf3f3',
 
@@ -86,10 +86,34 @@ export default {
           '--tab-border': '1px', // border width of tabs
           '--tab-radius': '0.5rem' // border radius of tabs
         },
+        white: {
+          'base-content': '#000',
+          primary: '#000',
+          'primary-content': '#feffff',
+          secondary: '#000',
+          success: '#0c8932',
+          'success-content': '#ecfdf5',
+          error: '#c91340',
+          'error-content': '#ffe4e6',
+          neutral: '#3d4451',
+          'base-100': '#fff',
+          'base-200': '#f1f3f5',
+          'base-300': '#ddd',
+
+          '--rounded-box': '1rem', // border radius rounded-box utility class, used in card and other large boxes
+          '--rounded-btn': '0.5rem', // border radius rounded-btn utility class, used in buttons and similar element
+          '--rounded-badge': '1.9rem', // border radius rounded-badge utility class, used in badges and similar
+          '--animation-btn': '0.25s', // duration of animation when you click on button
+          '--animation-input': '0.2s', // duration of animation for inputs like checkbox, toggle, radio, etc
+          '--btn-focus-scale': '0.95', // scale transform of button when you focus on it
+          '--border-btn': '1px', // border width of buttons
+          '--tab-border': '1px', // border width of tabs
+          '--tab-radius': '0.5rem' // border radius of tabs
+        },
         midnight: {
           'base-content': '#fff',
-          primary: '#feffff',
-          'primary-content': '#000',
+          primary: '#888',
+          'primary-content': '#fff',
           secondary: '#fff',
           success: '#0c8932',
           'success-content': '#ecfdf5',

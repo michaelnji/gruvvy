@@ -18,6 +18,7 @@
     "@morev/vue-transitions": "^3.0.2",
     "@vue-hero-icons/outline": "^1.7.2",
     "@vue-hero-icons/solid": "^1.7.2",
+    "@vueuse/components": "^10.9.0",
     "@vueuse/core": "^10.9.0",
     "animejs": "^3.2.2",
     "apexcharts": "^3.48.0",

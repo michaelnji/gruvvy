@@ -6,6 +6,8 @@ import anime from 'animejs';
 import { number } from "mathjs";
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
+import { useSettings } from '@/stores/settings';
+const settingsState = useSettings();
 let amount
 const date = new Date();
 let note = ''
@@ -196,9 +198,9 @@ function toggleOptions() {
 
                         </div>
                         <div class="flex gap-x-2"> <span
-                                class="text-primary font-bold bg-primary bg-opacity-10 p-3 rounded-xl">XAF</span><input
-                                v-model.number="amount" type="text" placeholder="2000"
-                                class="input input-bordered w-full font-bold rounded-xl" /></div>
+                                class="text-primary font-bold bg-primary bg-opacity-10 p-3 rounded-xl uppercase">{{
+            settingsState.settings.currency }}</span><input v-model.number="amount" type="text"
+                                placeholder="2000" class="input input-bordered w-full font-bold rounded-xl" /></div>
 
                     </label>
                 </div>
@@ -254,7 +256,7 @@ function toggleOptions() {
 
                         </div>
                         <div class="flex gap-x-2"> <span
-                                class="text-primary font-bold bg-primary bg-opacity-10 p-3 rounded-xl">XAF</span><input
+                                class="text-primary font-bold bg-primary bg-opacity-10 p-3 rounded-xl uppercase">{{settingsState.settings.currency}}</span><input
                                 v-model="amount" type="text" placeholder="2000"
                                 class="input input-bordered w-full font-bold rounded-xl" /></div>
 
