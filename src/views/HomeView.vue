@@ -51,7 +51,7 @@ onMounted(() => {
           <div v-if="profile.name" class="flex items-center gap-3">
             <button class="btn btn-circle !uppercase  text-2xl btn-primary">{{ profile.name.split('')[0] }}</button>
             <div>
-              <h2 class="font-head m-0 !leading-none font-medium  text-2xl">
+              <h2 class="font-head m-0 !leading-none font-medium capitalize  text-2xl">
                 {{ profile.name }}
               </h2>
               <p class="opacity-50"> ID: {{ profile.id }}</p>
