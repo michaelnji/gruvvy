@@ -17,7 +17,7 @@ export const useTransactions = defineStore('transactions', () => {
     }
     function filteredTransactions() {
 
-        return [...transactions.value].reverse().filter((x, i) => i < 4)
+        return [...transactions.value].reverse().filter((x, i) => i < 6)
     }
     return { transactions, addTransaction, filteredTransactions }
 })

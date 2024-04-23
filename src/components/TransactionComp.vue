@@ -4,12 +4,13 @@ import { getReadableDate } from '@/lib/scripts/dateManager';
 import { numToSummary } from '@/lib/scripts/numberFunctions';
 import anime from 'animejs';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useSettings } from '@/stores/settings';
 const settingsState = useSettings();
 const props = defineProps({
     transaction: { required: true }
 });
-
+const router = useRouter()
 const popoverIsVisible = ref(false);
 function showPopover() {
     popoverIsVisible.value = true;
@@ -38,11 +39,12 @@ function hidePopover() {
 </script>
 
 <template>
-    <div class=" bg-base-200 rounded-2xl p-3  flex items-center justify-between gap-3" @click="showPopover">
+    <div class=" bg-base-200 rounded-2xl p-3  flex items-center justify-between gap-3"
+        @click="router.push(`/transactions/${transaction.id}`)">
         <div>
             <h2 class=" text-xl flex gap-x-2 items-center font-extrabold">
                 <span> <small class="text-sm uppercase">{{ settingsState.settings.currency }} </small> {{
-        numToSummary(transaction.amount) }}</span>
+            numToSummary(transaction.amount) }}</span>
                 <span class="badge !rounded-xl badge-success bg-success-content text-success badge-sm"
                     v-if="transaction.type === 'income'">inc</span>
                 <span class="badge !rounded-lg badge-error bg-error-content text-error  badge-sm"
@@ -57,7 +59,7 @@ function hidePopover() {
         </div>
     </div>
 
-    <div class="fixed  bottom-0 left-0 right-0 h-dvh bg-black z-50 bg-opacity-60  flex items-end justify-center"
+    <!-- <div class="fixed  bottom-0 left-0 right-0 h-dvh bg-black z-50 bg-opacity-60  flex items-end justify-center"
         v-if="popoverIsVisible" @click.self="hidePopover">
         <div class="rounded-t-3xl max-w-xl   w-full bg-base-100" :id="transaction.id"
             style="transform: translateY(600px);">
@@ -105,5 +107,5 @@ function hidePopover() {
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </template>

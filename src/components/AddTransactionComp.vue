@@ -178,7 +178,7 @@ function toggleOptions() {
         style="z-index: 1000 !important;" v-if="popoverIsVisible" @click.self="hidePopover(currentPopover)">
 
         <div v-if="currentPopover === '#income'"
-            class="    !w-screen bg-base-100 rounded-t-3xl h-max max-h-[90%] p-6 overflow-scroll " id="income"
+            class="    !w-screen bg-base-100 rounded-t-3xl h-max max-h-[90%] p-6 !pb-12 overflow-scroll " id="income"
             style="transform: translateY(1200px);">
             <div>
                 <div
@@ -236,7 +236,7 @@ function toggleOptions() {
             </div>
         </div>
         <div v-if="currentPopover === '#expense'"
-            class="   w-full bg-base-100 rounded-t-3xl h-max max-h-[90%] p-6 overflow-scroll " id="expense"
+            class=" pb-12  w-full bg-base-100 rounded-t-3xl h-max max-h-[90%] p-6 overflow-scroll " id="expense"
             style="transform: translateY(1200px);">
             <div>
                 <div
