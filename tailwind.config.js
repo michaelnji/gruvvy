@@ -48,9 +48,9 @@ export default {
           error: '#c91340',
           'error-content': '#ffe4e6',
           neutral: '#3d4451',
-          'base-300': '#eebefa',
-          'base-200': '#f8e7ff',
-          'base-100': '#fcf3f3',
+          'base-100': '#fefefe',
+          'base-300': '#f8e7ff',
+          'base-200': '#fcf3f3',
 
           '--rounded-box': '1rem', // border radius rounded-box utility class, used in card and other large boxes
           '--rounded-btn': '0.5rem', // border radius rounded-btn utility class, used in buttons and similar element
@@ -72,9 +72,9 @@ export default {
           error: '#c91340',
           'error-content': '#ffe4e6',
           neutral: '#3d4451',
-          'base-300': '#c3f1a5',
-          'base-200': '#e0f7d0',
-          'base-100': '#f1fce9',
+          'base-100': '#fefefe',
+          'base-300': '#e0f7d0',
+          'base-200': '#f1fce9',
 
           '--rounded-box': '1rem', // border radius rounded-box utility class, used in card and other large boxes
           '--rounded-btn': '0.5rem', // border radius rounded-btn utility class, used in buttons and similar element
