@@ -17,3 +17,10 @@
   opacity: 0;
   transform: translateY(10px);
 }
+ .apexcharts-xaxis-label{
+  @apply !font-bold !opacity-100 !text-opacity-100 text-base;
+}
+
+  .apexcharts-tooltip {
+   @apply !rounded-2xl !shadow-xl !text-xs !font-head !border-0 
+  }

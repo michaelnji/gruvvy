@@ -7,6 +7,9 @@ import { number } from "mathjs";
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useSettings } from '@/stores/settings';
+import { useFocus } from '@vueuse/core'
+import { iconList } from '@/lib/data/icons';
+
 const settingsState = useSettings();
 let amount
 const date = new Date();
@@ -23,6 +26,10 @@ const currentPopover = ref("#income");
 const popoverIsVisible = ref(false);
 const optionsIsVisible = ref(false);
 const target = ref(null)
+const incomeAmountTarget = ref()
+const incomeAmountTargetFocus = useFocus(incomeAmountTarget, { initialValue: true })
+const expenseAmountTarget = ref()
+const expenseAmountTargetFocus = useFocus(expenseAmountTarget, { initialValue: true })
 function addTransacton(type) {
     if (Number.isNaN(Number.parseInt(amount)) || amount <= 0) {
 					errorMessages.value = "Amount is invalid";
@@ -178,7 +185,7 @@ function toggleOptions() {
         style="z-index: 1000 !important;" v-if="popoverIsVisible" @click.self="hidePopover(currentPopover)">
 
         <div v-if="currentPopover === '#income'"
-            class="    !w-screen bg-base-100 rounded-t-3xl h-max max-h-[90%] p-6 !pb-12 overflow-scroll " id="income"
+            class="    !w-screen bg-base-100 rounded-t-3xl h-[90%] p-6 overflow-scroll " id="income"
             style="transform: translateY(1200px);">
             <div>
                 <div
@@ -197,24 +204,26 @@ function toggleOptions() {
                             </span>
 
                         </div>
-                        <div class="flex gap-x-2"> <span
-                                class="text-primary font-bold bg-primary bg-opacity-10 p-3 rounded-xl uppercase">{{
+                        <div class="flex gap-x-3 items-center"> <span
+                                class="text-primary font-bold bg-primary bg-opacity-10 p-3 rounded-xl uppercase text-2xl">{{
             settingsState.settings.currency }}</span><input v-model.number="amount" type="text"
-                                placeholder="2000" class="input input-bordered w-full font-bold rounded-xl" /></div>
+                                ref="incomeAmountTarget" placeholder="0"
+                                class="input !p-0 !rounded-none focus:!border-b-0 focus:!border-t-0 focus:!border-l-0 focus:!border-r-0  focus:!ring-0 focus:!outline-none   w-full font-bold  text-5xl placeholder:text-primary placeholder:opacity-60" />
+                        </div>
 
                     </label>
                 </div>
-                <h3 class="font-bold text-xl mt-8 opacity-80 font-head">Category</h3>
+                <h3 class="font-bold text-xl mt-6 opacity-80 font-head">Category</h3>
                 <p class="opacity-70 text-sm">Choose only one</p>
-                <div class="mt-3  gap-2 flex flex-wrap ">
+                <div class="mt-4 gap-2 flex flex-wrap ">
 
                     <div v-for="item, i in incomeCategories" :key="i" @click="() => {
             chosenCategory = chosenCategory === item.name ? 'none' : item.name
         }" :class="{ '!bg-opacity-100 !text-primary-content': chosenCategory === item.name }"
-                        class="p-1 px-2 rounded-lg cursor-pointer border border-primary border-opacity-60 bg-primary text-primary bg-opacity-10 font-medium flex items-center justify-center gap-x-0.5 text-sm transition-all duration-150 capitalize font-head">
+                        class="p-1 px-2 rounded-lg cursor-pointer border border-primary border-opacity-60 bg-primary text-primary bg-opacity-10 font-medium flex items-center justify-center gap-x-2 text-md transition-all duration-150 capitalize font-head">
 
 
-
+                        <i :class='`${iconList[incomeCategories[item.name].icon].icon} !opacity-70  bx-sm`'></i>
                         <span>{{ item.name }}</span>
                     </div>
 
@@ -236,7 +245,7 @@ function toggleOptions() {
             </div>
         </div>
         <div v-if="currentPopover === '#expense'"
-            class=" pb-12  w-full bg-base-100 rounded-t-3xl h-max max-h-[90%] p-6 overflow-scroll " id="expense"
+            class="   w-full bg-base-100 rounded-t-3xl h-[90%] p-6 overflow-scroll " id="expense"
             style="transform: translateY(1200px);">
             <div>
                 <div
@@ -255,23 +264,25 @@ function toggleOptions() {
                             </span>
 
                         </div>
-                        <div class="flex gap-x-2"> <span
-                                class="text-primary font-bold bg-primary bg-opacity-10 p-3 rounded-xl uppercase">{{settingsState.settings.currency}}</span><input
-                                v-model="amount" type="text" placeholder="2000"
-                                class="input input-bordered w-full font-bold rounded-xl" /></div>
+                        <div class="flex gap-x-3 items-center"> <span
+                                class="text-primary font-bold bg-primary bg-opacity-10 p-3 text-3xl rounded-xl uppercase">{{
+            settingsState.settings.currency }}</span><input v-model="amount" type="text"
+                                ref="expenseAmountTarget" placeholder="0"
+                                class="input !p-0 !rounded-none focus:!border-b-0 focus:!border-t-0 focus:!border-l-0 focus:!border-r-0  focus:!ring-0 focus:!outline-none   w-full font-bold  text-5xl placeholder:text-primary placeholder:opacity-60" />
+                        </div>
 
                     </label>
                 </div>
-                <h3 class="font-bold text-xl mt-8 opacity-80 font-head">Category</h3>
+                <h3 class="font-bold text-xl mt-6 opacity-80 font-head">Category</h3>
                 <p class="opacity-70 text-sm">Choose only one</p>
-                <div class="mt-3  gap-2 flex flex-wrap w-full">
+                <div class="mt-4  gap-2 flex flex-wrap w-full">
                     <div v-for="item, i in expenseCategories" :key="i">
                         <div @click="chosenCategory = chosenCategory === item.name ? 'none' : item.name"
                             :class="{ '!bg-opacity-100 !text-primary-content': chosenCategory === item.name }"
                             class="p-1 px-2 rounded-lg cursor-pointer border border-primary border-opacity-60 bg-primary text-primary bg-opacity-10 font-medium font-head flex items-center gap-x-2 capitalize transition-all duration-150">
 
-
-                            <span class='text-sm'>{{ item.name }}</span>
+                            <i :class='`${iconList[expenseCategories[item.name].icon].icon} !opacity-70  bx-sm`'></i>
+                            <span class='text-md'>{{ item.name }}</span>
 
 
                         </div>

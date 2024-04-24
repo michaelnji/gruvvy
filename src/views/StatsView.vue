@@ -11,16 +11,18 @@ import { numToSummary } from '@/lib/scripts/numberFunctions';
 import { extractAmountsAndDatesFromData, extractAmountsFromData, extractDatesFromData, getMostUsedCategory, sortDatesDescending } from '@/lib/utils/stats';
 import { useSettings } from '@/stores/settings';
 import { useTransactions } from '@/stores/transactions';
+import { useTheme } from '@/stores/theme';
 import { useWindowScroll } from '@vueuse/core';
 import anime from 'animejs';
 import { getDate } from 'date-fns';
+import { storeToRefs } from 'pinia';
 import { computed, onMounted, ref } from 'vue';
 
 const { y } = useWindowScroll()
 const settingsState = useSettings();
 const currentChart = ref("income");
 const transactionsState = useTransactions();
-
+const { theme } = storeToRefs(useTheme())
 const startIndex = ref(0)
 const endIndex = computed(() => {
   return startIndex.value + 6
@@ -115,22 +117,22 @@ onMounted(() => {
         </div>
       </div>
       <div class="mt-3">
-        <ChartComp v-if="currentChart === 'income'" type="line" :series="incomeSeries" color="green"
+        <ChartComp v-if="currentChart === 'income'" type="bar" :series="incomeSeries" color="green" :label-color="theme"
           :categories="data.currentWeekDays" :id="'income'" />
-        <ChartComp v-if="currentChart === 'expense'" type="line" :series="expenseSeries" color="red"
+        <ChartComp v-if="currentChart === 'expense'" type="bar" :series="expenseSeries" color="red" :label-color="theme"
           :categories="data.currentWeekDays" :id="'expense'" />
       </div>
     </div>
     <div class="mt-4 px-4">
       <div class="rounded-2xl bg-base-200 p-6">
         <h2 class=" m-0 opacity-70 !leading-none text-lg">You spent the most on</h2>
-        <h1 class="font-extrabold font-head text-3xl"> {{ getDayFromDate(new Date(data.mostExpensiveDay.date)) }}</h1>
+        <h1 class="font-extrabold font-head text-2xl"> {{ getDayFromDate(new Date(data.mostExpensiveDay.date)) }}</h1>
       </div>
     </div>
     <div class="mt-4 px-4">
       <div class="rounded-2xl bg-base-200 p-6">
         <h2 class=" m-0 opacity-70 !leading-none font-medium text-lg">Your top categories</h2>
-        <div class="grid grid-cols-3 mt-6  flex-wrap gap-2">
+        <div class="grid grid-cols-2 mt-6  flex-wrap gap-2">
           <div v-for="item, i in mostUsedCategories" :key="i"
             class="p-3 bg-base-100 w-full rounded-xl flex items-center justify-center  flex-col">
             <span>

@@ -6,9 +6,12 @@ import anime from 'animejs';
 import { watch, onMounted, onBeforeUnmount } from 'vue';
 import { useTransactions } from '@/stores/transactions';
 import { storeToRefs } from 'pinia';
-import { RouterLink, useRoute, onBeforeRouteLeave, useRouter } from 'vue-router';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useSettings } from '@/stores/settings';
+import { useClipboard } from '@vueuse/core'
 
+
+const { copy, copied, isSupported } = useClipboard()
 const settingsState = useSettings();
 const route = useRoute()
 const router = useRouter()
@@ -91,7 +94,7 @@ onBeforeUnmount(() => {
 
                             <span> {{
                 getReadableDate(new Date(transaction.date))
-                                }}</span></span>
+            }}</span></span>
                     </div>
                     <div class="mt-8 text-pretty" v-if="transaction.note">
                         <h2 class="font-black text-3xl mb-2">Note</h2>
@@ -105,7 +108,15 @@ onBeforeUnmount(() => {
                     </div>
                     <div class="mt-8 grid grid-cols-2 gap-2">
                         <button class="btn join-item btn-error"><i class="bx bx-trash"></i>Delete</button>
-                        <button class="btn btn-primary join-item"><i class="bx bx-copy"></i>copy id</button>
+                        <button v-if="isSupported" class="btn btn-primary join-item" @click="copy(transaction.id)">
+
+
+                            <i class="bx bx-copy" v-if="!copied"></i><span v-if="!copied">copy
+                                id</span>
+
+                            <i class="bx bx-check bx-sm" v-if="copied"></i><span v-if="copied">copied</span>
+
+                        </button>
                     </div>
                 </div>
             </div>
