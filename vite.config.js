@@ -18,6 +18,8 @@ export default defineConfig({
       includeAssets: ['**/*.{js,css,html,ico,png,svg,woff2,ttf,eot,woff}'],
       manifest: {
         name: 'Paytrack',
+        description:
+          'PayTrack allows you to build good spending habits by showing you what you spend the most on and helps you stay on a budget.',
         short_name: 'Paytrack',
         icons: [
           {
@@ -66,8 +68,59 @@ export default defineConfig({
             type: 'image/png'
           }
         ],
-        theme_color: 'rgb(199, 129, 19)',
-        background_color: '#ffe8cc',
+        screenshots: [
+          {
+            src: 'screenshots/welcome.png',
+            sizes: '393x786',
+            type: 'image/gif',
+            form_factor: 'narrow',
+            label: 'Welcome Page'
+          },
+          {
+            src: 'screenshots/light.png',
+            sizes: '393x786',
+            type: 'image/gif',
+            form_factor: 'narrow',
+            label: 'Light Mode'
+          },
+          {
+            src: 'screenshots/add.png',
+            sizes: '393x786',
+            type: 'image/gif',
+            form_factor: 'narrow',
+            label: 'Add transactions'
+          },
+          {
+            src: 'screenshots/stats.png',
+            sizes: '393x786',
+            type: 'image/gif',
+            form_factor: 'narrow',
+            label: 'Detailed Statistics'
+          },
+          {
+            src: 'screenshots/settings.png',
+            sizes: '393x786',
+            type: 'image/gif',
+            form_factor: 'narrow',
+            label: 'Settings Page'
+          },
+          {
+            src: 'screenshots/transaction.png',
+            sizes: '393x786',
+            type: 'image/gif',
+            form_factor: 'narrow',
+            label: 'Transaction Details'
+          },
+          {
+            src: 'screenshots/dark.png',
+            sizes: '393x786',
+            type: 'image/gif',
+            form_factor: 'narrow',
+            label: 'Midnight Mode'
+          }
+        ],
+        theme_color: '#977944',
+        background_color: '#ece9d5',
         display: 'standalone'
       }
     }),
