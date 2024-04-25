@@ -94,7 +94,7 @@ onMounted(() => {
 
   <div :data-theme='theme' :class="`${theme} *:transition-none duration-150  !bg-base-100  text-base-content `">
     <div class=" md:hidden">
-      <InstallPrompterComp v-if="showPrompt" />
+      <InstallPrompterComp :showPrompt="showPrompt" />
       <RouterView />
 
     </div>
