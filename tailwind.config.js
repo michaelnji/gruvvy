@@ -15,18 +15,18 @@ export default {
     themes: [
       {
         desert: {
-          'base-content': '#3e1e0a',
-          primary: '#955613',
-          'primary-content': '#fcfaea',
-          secondary: '#3e1e0a',
+          'base-content': '#302118',
+          primary: '#977944',
+          'primary-content': '#dbd3ad',
+          secondary: '#302118',
           success: '#0c8932',
           'success-content': '#ecfdf5',
           error: '#c91340',
           'error-content': '#ffe4e6',
           neutral: '#3d4451',
-          'base-100': '#fcfaea',
-          'base-200': '#fbf5da',
-          'base-300': '#f6e392',
+          'base-100': '#f7f7ef',
+          'base-200': '#ece9d5',
+          'base-300': '#dbd3ad',
 
           '--rounded-box': '1rem', // border radius rounded-box utility class, used in card and other large boxes
           '--rounded-btn': '0.5rem', // border radius rounded-btn utility class, used in buttons and similar element
