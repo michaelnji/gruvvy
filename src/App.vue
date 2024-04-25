@@ -44,7 +44,7 @@ watch(settingsState, () => {
     }
   }
 });
-const showPrompt = ref(false)
+const showPrompt = ref(true)
 onMounted(() => {
 
   // The install button.
