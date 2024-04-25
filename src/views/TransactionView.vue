@@ -2,13 +2,13 @@
 import { iconList } from '@/lib/data/icons';
 import { getReadableDate } from '@/lib/scripts/dateManager';
 import { numToSummary } from '@/lib/scripts/numberFunctions';
-import anime from 'animejs';
-import { watch, onMounted, onBeforeUnmount } from 'vue';
-import { useTransactions } from '@/stores/transactions';
-import { storeToRefs } from 'pinia';
-import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useSettings } from '@/stores/settings';
-import { useClipboard } from '@vueuse/core'
+import { useTransactions } from '@/stores/transactions';
+import { useClipboard } from '@vueuse/core';
+import anime from 'animejs';
+import { storeToRefs } from 'pinia';
+import { onBeforeUnmount, onMounted, watch } from 'vue';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 
 
 const { copy, copied, isSupported } = useClipboard()
@@ -26,13 +26,7 @@ onMounted(() => {
         duration: 500
 
     });
-    anime({
-        targets: ".t-overlay",
-        opacity: '1',
-        easing: 'easeOutElastic(2,2)',
-        duration: 500
 
-    });
 });
 watch(route, () => {
     transaction = transactions.value.filter(x => x.id === route.params.id)[0];
@@ -60,7 +54,7 @@ onBeforeUnmount(() => {
     <main>
 
         <div @click.self="router.push('/')"
-            class="fixed  bottom-0 left-0 right-0 h-dvh bg-base-300 z-50 bg-opacity-80 opacity-0  flex items-end justify-center t-overlay">
+            class="fixed  bottom-0 left-0 right-0 h-dvh bg-base-300 z-50 bg-opacity-80   flex items-end justify-center ">
             <div class="rounded-t-3xl max-w-xl h-max max-h-[90%] overflow-y-scroll   w-full bg-base-100"
                 :id="transaction.id" style="transform: translateY(600px);">
                 <div class=" p-6 ">
@@ -107,8 +101,9 @@ onBeforeUnmount(() => {
 
                     </div>
                     <div class="mt-8 grid grid-cols-2 gap-2">
-                        <button class="btn join-item btn-error"><i class="bx bx-trash"></i>Delete</button>
-                        <button v-if="isSupported" class="btn btn-primary join-item" @click="copy(transaction.id)">
+                        <button class="btn rounded-2xl join-item btn-error"><i class="bx bx-trash"></i>Delete</button>
+                        <button v-if="isSupported" class="btn rounded-2xl btn-primary join-item"
+                            @click="copy(transaction.id)">
 
 
                             <i class="bx bx-copy" v-if="!copied"></i><span v-if="!copied">copy

@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useSettings = defineStore('settings', () => {
-  let settings = ref(getOrSetItem('pt-settings', defaultSettings))
+  const settings = ref(getOrSetItem('pt-settings', defaultSettings))
 
   function updateSettings(updatedSettings) {
     settings.value = updatedSettings

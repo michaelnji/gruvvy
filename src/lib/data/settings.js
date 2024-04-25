@@ -1,7 +1,6 @@
 export const defaultSettings = {
   theme: {
-    respectUserPreferredColorScheme: true,
-    currentTheme: 'desert'
+    respectUserPreferredColorScheme: true
   },
   currency: 'xaf',
   security: {

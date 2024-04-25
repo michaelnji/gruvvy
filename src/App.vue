@@ -31,13 +31,14 @@ watch(preferredColor, () => {
 });
 watch(settingsState, () => {
   if (settingsState.settings.theme.respectUserPreferredColorScheme) {
-    if (preferredColor.value) {
-      if (preferredColor.value === 'no-preference' || preferredColor.value === 'light') themeState.setTheme('desert')
-      if (preferredColor.value === 'dark') themeState.setTheme('midnight')
+    const { theme } = getItemValue('pt-settings')
+
+    if (theme.respectUserPreferredColorScheme !== settingsState.settings.theme.respectUserPreferredColorScheme) {
+      if (preferredColor.value) {
+        if (preferredColor.value === 'no-preference' || preferredColor.value === 'light') themeState.setTheme('desert')
+        if (preferredColor.value === 'dark') themeState.setTheme('midnight')
+      }
     }
-  }
-  else {
-    themeState.setTheme('desert')
   }
 });
 
