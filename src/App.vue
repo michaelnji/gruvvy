@@ -7,6 +7,9 @@ import { useProfile } from "./stores/profile";
 import { usePreferredColorScheme } from '@vueuse/core'
 import { useSettings } from '@/stores/settings';
 import { watch } from "vue";
+import InstallPrompterComp from '@/components/installPrompterComp.vue'
+import { onMounted } from "vue";
+import { ref } from "vue";
 const settingsState = useSettings();
 const preferredColor = usePreferredColorScheme()
 const themeState = useTheme();
@@ -31,9 +34,9 @@ watch(preferredColor, () => {
 });
 watch(settingsState, () => {
   if (settingsState.settings.theme.respectUserPreferredColorScheme) {
-    const { theme } = getItemValue('pt-settings')
+    const { theme: t } = getItemValue('pt-settings')
 
-    if (theme.respectUserPreferredColorScheme !== settingsState.settings.theme.respectUserPreferredColorScheme) {
+    if (t.respectUserPreferredColorScheme !== settingsState.settings.theme.respectUserPreferredColorScheme) {
       if (preferredColor.value) {
         if (preferredColor.value === 'no-preference' || preferredColor.value === 'light') themeState.setTheme('desert')
         if (preferredColor.value === 'dark') themeState.setTheme('midnight')
@@ -41,13 +44,57 @@ watch(settingsState, () => {
     }
   }
 });
+const showPrompt = ref(false)
+onMounted(() => {
 
+  // The install button.
+  const installButton = document.querySelector('.prompt-btn');
+
+
+  if ('BeforeInstallPromptEvent' in window) {
+
+    let installEvent = null;
+
+
+    const onInstall = () => {
+
+      showPrompt.value = false;
+
+      installEvent = null;
+    };
+
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault();
+      installEvent = event;
+      showPrompt.value = true;
+    });
+
+    installButton.addEventListener('click', async () => {
+      if (!installEvent) {
+        return;
+      }
+
+      installEvent.prompt();
+      const result = await installEvent.userChoice;
+
+      if (result.outcome === 'accepted') {
+        onInstall();
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      onInstall();
+    });
+  }
+
+});
 </script>
 
 <template>
 
   <div :data-theme='theme' :class="`${theme} *:transition-none duration-150  !bg-base-100  text-base-content `">
     <div class=" md:hidden">
+      <InstallPrompterComp v-if="showPrompt" />
       <RouterView />
 
     </div>
