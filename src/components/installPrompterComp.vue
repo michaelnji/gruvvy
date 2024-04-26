@@ -13,7 +13,7 @@ onMounted(() => {
             duration: 500
 
         });
-    }, 200);
+    }, 500);
 });
 function hidePrompt() {
     anime({

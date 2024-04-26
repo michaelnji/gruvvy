@@ -79,7 +79,7 @@ onMounted(() => {
         window.addEventListener('appinstalled', () => {
           onInstall();
         });
-      }, 200);
+      }, 1000);
     });
 
 
