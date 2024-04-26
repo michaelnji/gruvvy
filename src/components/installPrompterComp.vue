@@ -6,15 +6,16 @@ const props = defineProps(['showPrompt']);
 watch(props.showPrompt, () => {
 
     if (props.showPrompt) {
-        setTImeout(() => {
-            anime({
-                targets: '.prompt',
-                translateY: '0px',
-                easing: 'easeOutElastic(2,2)',
-                duration: 400
 
-            });
-        }, 100)
+        anime({
+            targets: '.prompt',
+            translateY: '0px',
+            easing: 'easeOutElastic(2,2)',
+            duration: 400,
+            delay: 100
+
+        });
+
     }
 
 });
