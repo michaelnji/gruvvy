@@ -2,8 +2,7 @@
 import anime from 'animejs';
 import { ref } from 'vue';
 import { onMounted } from 'vue';
-const props = defineProps(['showPrompt'])
-const show = ref(props.showPrompt)
+const props = defineProps(['showPrompt']);
 onMounted(() => {
 
     anime({
@@ -30,12 +29,12 @@ function hidePrompt() {
         delay: 450
 
     });
-    setTimeout(() => { show.value = false }, 800)
+    setTimeout(() => { props.showPrompt = false }, 800)
 
 }
 </script>
 <template>
-    <div v-if="show" @click.self="hidePrompt"
+    <div v-if="showPrompt" @click.self="hidePrompt"
         class="fixed w-svw h-dvh top-0 left-0 right-0 bottom-0 bg-black bg-opacity-70 p-4 z-50 prompt-overlay">
         <div class="rounded-2xl p-6 bg-base-200 text-center shadow-2xl prompt" style="transform: translateY(-600px);">
             <h2 class="font-head text-2xl font-bold">Install PayTrack?</h2>
