@@ -46,10 +46,13 @@ watch(settingsState, () => {
 });
 const showPrompt = ref(true)
 onMounted(() => {
+  if (window.matchMedia('(display-mode: standalone)').matches) {
+   showPrompt.value = false
+   return
+  }  
 
   // The install button.
   const installButton = document.querySelector('.prompt-btn');
-
 
   if ('BeforeInstallPromptEvent' in window) {
 
