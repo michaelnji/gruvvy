@@ -46,18 +46,10 @@ watch(settingsState, () => {
 });
 const showPrompt = ref(false)
 onMounted(() => {
-  if (window.matchMedia('(display-mode: standalone)').matches) {
-   showPrompt.value = false
-   return
-  }  
-
-
 
   if ('BeforeInstallPromptEvent' in window) {
 
     let installEvent = null;
-
-
     const onInstall = () => {
 
       showPrompt.value = false;
@@ -70,27 +62,27 @@ onMounted(() => {
       installEvent = event;
       showPrompt.value = true;
     });
-    // The install button.
 
-    const installButton = document.querySelector('.prompt-btn');
-    installButton.addEventListener('click', async () => {
-      if (!installEvent) {
-        return;
-      }
+    setTimeout(() => {
+      const installButton = document.querySelector('.prompt-btn');
+      installButton.addEventListener('click', async () => {
+        if (!installEvent) {
+          return;
+        }
 
-      installEvent.prompt();
-      const result = await installEvent.userChoice;
+        installEvent.prompt();
+        const result = await installEvent.userChoice;
 
-      if (result.outcome === 'accepted') {
+        if (result.outcome === 'accepted') {
+          onInstall();
+        }
+      });
+
+      window.addEventListener('appinstalled', () => {
         onInstall();
-      }
-    });
-
-    window.addEventListener('appinstalled', () => {
-      onInstall();
-    });
+      });
+    }, 200);
   }
-
 
 });
 </script>

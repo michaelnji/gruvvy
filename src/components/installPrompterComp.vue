@@ -5,13 +5,15 @@ import { onMounted } from 'vue';
 const props = defineProps(['showPrompt']);
 onMounted(() => {
 
-    anime({
-        targets: '.prompt',
-        translateY: '0px',
-        easing: 'easeOutElastic(2,2)',
-        duration: 500
+    setTimeout(() => {
+        anime({
+            targets: '.prompt',
+            translateY: '0px',
+            easing: 'easeOutElastic(2,2)',
+            duration: 500
 
-    });
+        });
+    }, 200);
 });
 function hidePrompt() {
     anime({
