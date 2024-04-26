@@ -44,15 +44,14 @@ watch(settingsState, () => {
     }
   }
 });
-const showPrompt = ref(true)
+const showPrompt = ref(false)
 onMounted(() => {
   if (window.matchMedia('(display-mode: standalone)').matches) {
    showPrompt.value = false
    return
   }  
 
-  // The install button.
-  const installButton = document.querySelector('.prompt-btn');
+
 
   if ('BeforeInstallPromptEvent' in window) {
 
@@ -71,7 +70,8 @@ onMounted(() => {
       installEvent = event;
       showPrompt.value = true;
     });
-
+    // The install button.
+    const installButton = document.querySelector('.prompt-btn');
     installButton.addEventListener('click', async () => {
       if (!installEvent) {
         return;
