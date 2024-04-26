@@ -1,13 +1,15 @@
 <script setup>
-import InstallPrompterComp from '@/components/installPrompterComp.vue';
-import { useSettings } from '@/stores/settings';
 import { useTheme } from "@/stores/theme";
-import { usePreferredColorScheme } from '@vueuse/core';
 import { storeToRefs } from "pinia";
-import { onMounted, ref, watch } from "vue";
 import { RouterView } from "vue-router";
 import { getItemValue } from "./lib/scripts/db";
 import { useProfile } from "./stores/profile";
+import { usePreferredColorScheme } from '@vueuse/core'
+import { useSettings } from '@/stores/settings';
+import { watch } from "vue";
+import InstallPrompterComp from '@/components/installPrompterComp.vue'
+import { onMounted } from "vue";
+import { ref } from "vue";
 const settingsState = useSettings();
 const preferredColor = usePreferredColorScheme()
 const themeState = useTheme();
@@ -67,29 +69,28 @@ onMounted(() => {
       event.preventDefault();
       installEvent = event;
       showPrompt.value = true;
-      setTimeout(() => {
-        const installButton = document.querySelector('.prompt-btn');
-        installButton.addEventListener('click', async () => {
-          if (!installEvent) {
-            return;
-          }
-
-          installEvent.prompt();
-          const result = await installEvent.userChoice;
-
-          if (result.outcome === 'accepted') {
-            onInstall();
-          }
-        });
-
-        window.addEventListener('appinstalled', () => {
-          onInstall();
-        });
-      }, 1000);
     });
     // The install button.
 
+    const installButton = document.querySelector('.prompt-btn');
+    installButton.addEventListener('click', async () => {
+      if (!installEvent) {
+        return;
+      }
+
+      installEvent.prompt();
+      const result = await installEvent.userChoice;
+
+      if (result.outcome === 'accepted') {
+        onInstall();
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      onInstall();
+    });
   }
+
 
 });
 </script>
