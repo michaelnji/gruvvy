@@ -63,12 +63,7 @@ onMounted(() => {
       installEvent = event;
       showPrompt.value = true;
 
-      anime({
-        targets: '#prompt-h',
-        translateY: '0px',
-        easing: 'easeOutElastic(2,2)',
-        duration: 400,
-      });
+
 
       setTimeout(() => {
         const installButton = document.querySelector('.prompt-btn');

@@ -1,6 +1,14 @@
 <script setup>
 import anime from 'animejs';
-
+import { onMounted } from 'vue';
+onMounted(() => {
+    anime({
+        targets: '#prompt-h',
+        translateY: 0,
+        easing: 'easeOutElastic(2,2)',
+        duration: 500,
+    });
+})
 function hidePrompt() {
     anime({
         targets: '#prompt-h',
