@@ -1,6 +1,7 @@
 <script setup>
 import anime from 'animejs';
 import { onMounted } from 'vue';
+const emit = defineEmits(['close'])
 onMounted(() => {
     anime({
         targets: '#prompt-h',
@@ -25,7 +26,7 @@ function hidePrompt() {
         delay: 450
 
     });
-    // setTimeout(() => { props.showPrompt = false }, 800)
+    setTimeout(() => { emit('close') }, 800)
 
 }
 </script>

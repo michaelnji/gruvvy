@@ -10,7 +10,7 @@ import { watch } from "vue";
 import InstallPrompterComp from '@/components/installPrompterComp.vue'
 import { onMounted } from "vue";
 import { ref } from "vue";
-import anime from 'animejs'
+
 const settingsState = useSettings();
 const preferredColor = usePreferredColorScheme()
 const themeState = useTheme();
@@ -60,11 +60,10 @@ onMounted(() => {
 
     window.addEventListener('beforeinstallprompt', (event) => {
       event.preventDefault();
-      installEvent = event;
       showPrompt.value = true;
+      installEvent = event;
 
-
-
+      //? timeout needed to give time for prompt component to be created before accessing the prompt button (.prompt-btn)
       setTimeout(() => {
         const installButton = document.querySelector('.prompt-btn');
         installButton.addEventListener('click', async () => {
@@ -83,7 +82,7 @@ onMounted(() => {
         window.addEventListener('appinstalled', () => {
           onInstall();
         });
-      }, 400);
+      }, 40);
     });
 
 
@@ -96,7 +95,7 @@ onMounted(() => {
 
   <div :data-theme='theme' :class="`${theme} *:transition-none duration-150  !bg-base-100  text-base-content `">
     <div class=" md:hidden">
-      <InstallPrompterComp v-if="showPrompt" />
+      <InstallPrompterComp v-if="showPrompt" @close="showPrompt = false" />
       <RouterView />
 
     </div>
