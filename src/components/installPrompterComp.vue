@@ -1,23 +1,17 @@
 <script setup>
 import anime from 'animejs';
-import { ref } from 'vue';
-import { watch } from 'vue';
+import { onMounted } from 'vue';
+
 const props = defineProps(['showPrompt']);
-watch(props.showPrompt, () => {
+onMounted(() => {
+    anime({
+        targets: '.prompt',
+        translateY: '0px',
+        easing: 'easeOutElastic(2,2)',
+        duration: 400,
+        delay: 100
 
-    if (props.showPrompt) {
-
-        anime({
-            targets: '.prompt',
-            translateY: '0px',
-            easing: 'easeOutElastic(2,2)',
-            duration: 400,
-            delay: 100
-
-        });
-
-    }
-
+    });
 });
 function hidePrompt() {
     anime({
