@@ -1,10 +1,7 @@
 <script setup>
 import anime from 'animejs';
-import { onMounted } from 'vue';
 
-const props = defineProps(['showPrompt']);
-onMounted(() => {
-    setTimeout(() => {
+
         anime({
             targets: '#prompt-h',
             translateY: '0px',
@@ -13,8 +10,7 @@ onMounted(() => {
             delay: 100
 
         });
-    }, 200)
-});
+
 function hidePrompt() {
     anime({
         targets: '.prompt',
@@ -31,12 +27,12 @@ function hidePrompt() {
         delay: 450
 
     });
-    setTimeout(() => { props.showPrompt = false }, 800)
+    // setTimeout(() => { props.showPrompt = false }, 800)
 
 }
 </script>
 <template>
-    <div v-if="showPrompt" @click.self="hidePrompt"
+    <div @click.self="hidePrompt"
         class="fixed w-svw h-dvh top-0 left-0 right-0 bottom-0 bg-black bg-opacity-70 p-4 z-50 prompt-overlay">
         <div class="rounded-2xl p-6 bg-base-200 text-center shadow-2xl" id="prompt-h"
             style="transform: translateY(-600px);">
