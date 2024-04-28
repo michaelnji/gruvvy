@@ -61,25 +61,25 @@ onMounted(() => {
       event.preventDefault();
       installEvent = event;
       showPrompt.value = true;
-      // setTimeout(() => {
-      //   const installButton = document.querySelector('.prompt-btn');
-      //   installButton.addEventListener('click', async () => {
-      //     if (!installEvent) {
-      //       return;
-      //     }
+      setTimeout(() => {
+        const installButton = document.querySelector('.prompt-btn');
+        installButton.addEventListener('click', async () => {
+          if (!installEvent) {
+            return;
+          }
 
-      //     installEvent.prompt();
-      //     const result = await installEvent.userChoice;
+          installEvent.prompt();
+          const result = await installEvent.userChoice;
 
-      //     if (result.outcome === 'accepted') {
-      //       onInstall();
-      //     }
-      //   });
+          if (result.outcome === 'accepted') {
+            onInstall();
+          }
+        });
 
-      //   window.addEventListener('appinstalled', () => {
-      //     onInstall();
-      //   });
-      // }, 50);
+        window.addEventListener('appinstalled', () => {
+          onInstall();
+        });
+      }, 50);
     });
 
 

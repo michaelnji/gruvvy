@@ -13,7 +13,7 @@ import anime from 'animejs';
 
 function hidePrompt() {
     anime({
-        targets: '.prompt',
+        targets: '#prompt-h',
         translateY: '-300px',
         easing: 'easeOutElastic(2,2)',
         duration: 500
@@ -35,7 +35,7 @@ function hidePrompt() {
     <div @click.self="hidePrompt"
         class="fixed w-svw h-dvh top-0 left-0 right-0 bottom-0 bg-black bg-opacity-70 p-4 z-50 prompt-overlay">
         <div class="rounded-2xl p-6 bg-base-200 text-center shadow-2xl" id="prompt-h"
-            style="transform: translateY(-600px);">
+            style="transform: translateY(-300px);">
             <h2 class="font-head text-2xl font-bold">Install PayTrack?</h2>
             <p class=" mt-2 opacity-85 text-center">This app can be installed and used offline as a standalone app.</p>
             <button class="mt-4 btn font-head btn-primary rounded-xl prompt-btn w-full">
