@@ -10,6 +10,7 @@ import { watch } from "vue";
 import InstallPrompterComp from '@/components/installPrompterComp.vue'
 import { onMounted } from "vue";
 import { ref } from "vue";
+import anime from 'animejs'
 const settingsState = useSettings();
 const preferredColor = usePreferredColorScheme()
 const themeState = useTheme();
@@ -61,6 +62,14 @@ onMounted(() => {
       event.preventDefault();
       installEvent = event;
       showPrompt.value = true;
+
+      anime({
+        targets: '#prompt-h',
+        translateY: '0px',
+        easing: 'easeOutElastic(2,2)',
+        duration: 400,
+      });
+
       setTimeout(() => {
         const installButton = document.querySelector('.prompt-btn');
         installButton.addEventListener('click', async () => {
@@ -79,7 +88,7 @@ onMounted(() => {
         window.addEventListener('appinstalled', () => {
           onInstall();
         });
-      }, 50);
+      }, 400);
     });
 
 

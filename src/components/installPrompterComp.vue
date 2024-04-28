@@ -1,16 +1,6 @@
 <script setup>
 import anime from 'animejs';
 
-
-        anime({
-            targets: '#prompt-h',
-            translateY: '0px',
-            easing: 'easeOutElastic(2,2)',
-            duration: 400,
-
-
-        });
-
 function hidePrompt() {
     anime({
         targets: '#prompt-h',
