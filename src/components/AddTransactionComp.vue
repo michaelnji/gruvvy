@@ -9,6 +9,7 @@ import { ref } from 'vue';
 import { useSettings } from '@/stores/settings';
 import { useFocus } from '@vueuse/core'
 import { iconList } from '@/lib/data/icons';
+import { onClickOutside } from '@vueuse/core'
 
 const settingsState = useSettings();
 let amount
@@ -27,51 +28,51 @@ const popoverIsVisible = ref(false);
 const optionsIsVisible = ref(false);
 const target = ref(null)
 const incomeAmountTarget = ref()
-const incomeAmountTargetFocus = useFocus(incomeAmountTarget, { initialValue: true })
+const incomeAmountTargetFocus = useFocus(incomeAmountTarget)
 const expenseAmountTarget = ref()
-const expenseAmountTargetFocus = useFocus(expenseAmountTarget, { initialValue: true })
+const expenseAmountTargetFocus = useFocus(expenseAmountTarget)
 function addTransacton(type) {
     if (Number.isNaN(Number.parseInt(amount)) || amount <= 0) {
-					errorMessages.value = "Amount is invalid";
-					return;
-				}
+        errorMessages.value = "Amount is invalid";
+        return;
+    }
 
-				if (chosenCategory.value === "none") {
-					errorMessages.value = "Please choose a category";
-					return;
-				}
+    if (chosenCategory.value === "none") {
+        errorMessages.value = "Please choose a category";
+        return;
+    }
 
-				const updatedProfile = profileState.profile;
-				amount = number(amount);
+    const updatedProfile = profileState.profile;
+    amount = number(amount);
 
-				if (type === "income") {
-					updatedProfile.balance = number(updatedProfile.balance + amount);
-					updatedProfile.income = number(updatedProfile.income + amount);
-				}
+    if (type === "income") {
+        updatedProfile.balance = number(updatedProfile.balance + amount);
+        updatedProfile.income = number(updatedProfile.income + amount);
+    }
 
-				if (type === "expense") {
-					if (updatedProfile.balance - amount < 0) {
-						errorMessages.value = "amount is higher than balance";
-						return;
-					}
-					updatedProfile.balance = number(updatedProfile.balance - amount);
-					updatedProfile.expense = number(updatedProfile.expense) + amount;
-					updatedProfile.budget_usage =
-						number(updatedProfile.budget_usage) + amount;
-				}
+    if (type === "expense") {
+        if (updatedProfile.balance - amount < 0) {
+            errorMessages.value = "amount is higher than balance";
+            return;
+        }
+        updatedProfile.balance = number(updatedProfile.balance - amount);
+        updatedProfile.expense = number(updatedProfile.expense) + amount;
+        updatedProfile.budget_usage =
+            number(updatedProfile.budget_usage) + amount;
+    }
 
-				const currentCategoryType = categories.value[type];
-				const newTransaction = {
-					type,
-					date,
-					amount,
-					note,
-					category: currentCategoryType[chosenCategory.value],
-				};
+    const currentCategoryType = categories.value[type];
+    const newTransaction = {
+        type,
+        date,
+        amount,
+        note,
+        category: currentCategoryType[chosenCategory.value],
+    };
 
-				transactionsState.addTransaction(newTransaction);
-				profileState.updateProfile(updatedProfile);
-				hidePopover(`#${type}`);
+    transactionsState.addTransaction(newTransaction);
+    profileState.updateProfile(updatedProfile);
+    hidePopover(`#${type}`);
 }
 function showPopover(selector) {
     currentPopover.value = selector
@@ -92,6 +93,10 @@ function showPopover(selector) {
 
         });
     }, 1)
+    setTimeout(() => {
+        if (selector === '#expense') expenseAmountTargetFocus.focused = true
+        if (selector === '#income') incomeAmountTargetFocus.focused = true
+    }, 500)
 }
 function hidePopover(selector) {
     amount = null
@@ -154,15 +159,17 @@ function toggleOptions() {
 <template>
     <div class="relative">
         <div v-if="optionsIsVisible" ref="target"
-            class="flex p-6 absolute z-20 gap-x-6 rounded-3xl bg-base-100 border border-primary border-opacity-30 shadow-xl transform translate-y-12 opacity-0 options">
-            <button class=" flex-col rounded-xl border border-success bg-success-content text-success  p-3 text-xl "
+            class="grid grid-cols-2 w-max p-6 absolute z-20 gap-x-3 rounded-3xl bg-base-100 border border-base-content border-opacity-15  shadow-2xl transform translate-y-12 opacity-0 options ">
+            <button
+                class=" flex items-center !flex-col rounded-xl border border-primary border-opacity-15  bg-base-300 uppercase text-base-content  p-3 text-xl gap-2"
                 @click="showPopover('#income')">
                 <i class='bx bx-upload bx-sm !bg-transparent'></i>
                 <span class="text-sm">
                     income
                 </span>
             </button>
-            <button class=" flex-col rounded-xl border border-error bg-error-content text-error  p-3 text-xl "
+            <button
+                class=" flex items-center !flex-col rounded-xl border border-primary border-opacity-15 gap-2 bg-base-300 uppercase text-base-content  p-3 text-xl "
                 @click="showPopover('#expense')">
                 <i class='bx bx-download bx-sm !bg-transparent'></i>
                 <span class=" text-sm">
@@ -172,7 +179,7 @@ function toggleOptions() {
 
 
         </div>
-        <div class=" transform -translate-y-8 ">
+        <div class=" transform -translate-y-11 ">
             <button class="btn btn-primary  btn-lg shadow-lg shadow-primary btn-circle "
                 :class="{ '!rotate-45': optionsIsVisible === true }" @click="toggleOptions"><i
                     class="bx bx-plus bx-md"></i></button>
@@ -186,7 +193,7 @@ function toggleOptions() {
 
         <div v-if="currentPopover === '#income'"
             class="    !w-screen bg-base-100 rounded-t-3xl h-[90%] p-6 overflow-scroll " id="income"
-            style="transform: translateY(1200px);">
+            ref='incomeAmountTarget' style="transform: translateY(1200px);">
             <div>
                 <div
                     class="flex items-center justify-end !fixed w-full px-6 py-3 bg-base-100 top-0 left-0 right-0 rounded-t-3xl z-10 ">
@@ -246,7 +253,7 @@ function toggleOptions() {
         </div>
         <div v-if="currentPopover === '#expense'"
             class="   w-full bg-base-100 rounded-t-3xl h-[90%] p-6 overflow-scroll " id="expense"
-            style="transform: translateY(1200px);">
+            ref="expenseAmountTarget" style="transform: translateY(1200px);">
             <div>
                 <div
                     class="flex items-center justify-end fixed w-full px-6 pt-3 bg-base-100 top-0 left-0 right-0 rounded-t-3xl z-10 ">

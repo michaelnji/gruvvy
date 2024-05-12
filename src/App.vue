@@ -2,7 +2,7 @@
 import { useTheme } from "@/stores/theme";
 import { storeToRefs } from "pinia";
 import { RouterView } from "vue-router";
-import { getItemValue } from "./lib/scripts/db";
+import { getItemValue } from "$lib/scripts/db";
 import { useProfile } from "./stores/profile";
 import { usePreferredColorScheme } from '@vueuse/core'
 import { useSettings } from '@/stores/settings';

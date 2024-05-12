@@ -41,7 +41,7 @@ export default {
         amethyst: {
           'base-content': '#220029',
           primary: '#bd5adb',
-          'primary-content': '#eed6f8',
+          'primary-content': '#fefefe',
           secondary: '#220029',
           success: '#0c8932',
           'success-content': '#ecfdf5',

@@ -35,10 +35,9 @@ watch(checked, () => {
     settingsState.updateSettings(settingsState.settings)
 })
 watch(currency, () => {
-
     settingsState.settings.currency = currency
     settingsState.updateSettings(settingsState.settings)
-})
+});
 
 </script>
 <template>

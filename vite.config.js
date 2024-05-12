@@ -5,7 +5,6 @@ import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import webfontDownload from 'vite-plugin-webfont-dl'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
@@ -132,7 +131,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      $: fileURLToPath(new URL('./src/lib', import.meta.url))
+      // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+      $lib: fileURLToPath(new URL('./src/lib', import.meta.url))
     }
   }
 })
