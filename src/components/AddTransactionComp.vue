@@ -1,3 +1,4 @@
+<!-- add transactions component -->
 <script setup>
 import { useCategories } from '@/stores/categories';
 import { useProfile } from '@/stores/profile';
@@ -150,10 +151,7 @@ function toggleOptions() {
 
 }
 
-// onClickOutside(target => {
-//     optionsIsVisible.value = false
-//     console.log(target)
-// });
+
 </script>
 
 <template>

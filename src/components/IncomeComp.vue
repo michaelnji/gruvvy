@@ -1,3 +1,4 @@
+<!-- income component -->
 <script setup>
 import { numToSummary } from '@/lib/scripts/numberFunctions';
 import { useSettings } from '@/stores/settings';

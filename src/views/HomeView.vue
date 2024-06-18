@@ -42,6 +42,7 @@ onMounted(() => {
 
 </script>
 
+<!-- homeview.vue (template only) -->
 <template>
   <div v-if="!isNewUser">
     <navBar />

@@ -8,7 +8,7 @@ import { round } from 'mathjs';
  * @example const formattedNumber = formatNum(100990) // 100,990
  * @author Michael
  * @param {number} num
- * @return {*} {string | number}
+ * @return {*} {string | number} 100000 => 100,000
  */
 export function formatNum(num) {
     if (num < 1000 || !num) {

@@ -1,3 +1,4 @@
+<!-- component to prompt user to install app -->
 <script setup>
 import anime from 'animejs';
 import { onMounted } from 'vue';
